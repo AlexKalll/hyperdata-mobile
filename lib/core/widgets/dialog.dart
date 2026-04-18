@@ -20,23 +20,23 @@ void showConfirmationDialog({required String title, required String description,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(width: 2,),
+                    const SizedBox(width: 2,),
                     Text(title,style: TextStyle(fontSize:15,fontWeight: FontWeight.bold,color: theme)),
                     InkWell(
                         onTap:(){
                           Get.back();
                         },
-                        child: Icon(Icons.close,size: 22,color: Colors.black,))
+                        child: const Icon(Icons.close,size: 22,color: Colors.black,))
                   ],
                 ),
               ),
-              SizedBox(height: 4,),
+              const SizedBox(height: 4,),
               const Divider(thickness: 1,color: Colors.black,)
             ],
           ),
-          titlePadding: EdgeInsets.only(top: 12,bottom: 10),
-          contentPadding: EdgeInsets.symmetric(horizontal:15 ),
-          content: Container(
+          titlePadding: const EdgeInsets.only(top: 12,bottom: 10),
+          contentPadding: const EdgeInsets.symmetric(horizontal:15 ),
+          content: SizedBox(
               width: getScreenWidth(context),
               child: SingleChildScrollView(
                   child: Text(description,textAlign: TextAlign.center))
@@ -51,14 +51,14 @@ void showConfirmationDialog({required String title, required String description,
                     onSubmit();
                     Get.back();
                   },fontSize: 15,height: 40,color: theme,),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   ButtonWidget(text: 'common.cancel'.tr, fill: false,fontSize: 15, height: 40,color: theme, onPressed: (){
                     Get.back();},),
                 ],
               ),
             )
           ],
-          actionsPadding: EdgeInsets.only(bottom: 20,top: 20,left: 20,right: 20),
+          actionsPadding: const EdgeInsets.only(bottom: 20,top: 20,left: 20,right: 20),
         );
       });
 }

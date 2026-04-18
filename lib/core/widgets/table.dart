@@ -27,7 +27,7 @@ class TableWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: values.length <= 4 ? getScreenWidth(context)-30 : values.length *(getScreenWidth(context) * 0.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -57,7 +57,7 @@ class TableWidget extends StatelessWidget {
               )
             else
               ...values.map((row) {
-                return Container(
+                return SizedBox(
                   width: values.length <= 4 ? getScreenWidth(context)-30 : values.length *(getScreenWidth(context) * 0.2),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 2.0),

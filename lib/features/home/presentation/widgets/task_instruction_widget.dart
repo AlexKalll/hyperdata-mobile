@@ -698,11 +698,11 @@ class _TaskInstructionBottomSheetState extends State<TaskInstructionBottomSheet>
                   color: AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.launch, size: 16, color: AppColors.primary),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       'Open in Browser',
                       style: TextStyle(
@@ -739,7 +739,7 @@ class _TaskInstructionBottomSheetState extends State<TaskInstructionBottomSheet>
           ),
           child: Row(
             children: [
-              Icon(Icons.open_in_browser, color: AppColors.primary, size: 32),
+              const Icon(Icons.open_in_browser, color: AppColors.primary, size: 32),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -764,7 +764,7 @@ class _TaskInstructionBottomSheetState extends State<TaskInstructionBottomSheet>
                   ],
                 ),
               ),
-              Icon(Icons.launch, size: 20, color: AppColors.primary),
+              const Icon(Icons.launch, size: 20, color: AppColors.primary),
             ],
           ),
         ),

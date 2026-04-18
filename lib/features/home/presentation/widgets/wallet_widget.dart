@@ -69,7 +69,7 @@ class WalletWidget extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.only(left: 20),
-                    child: LoadingWidget(isTransparent: true, size: 25,height: 30,width: 30,color: Colors.white,),
+                    child: const LoadingWidget(isTransparent: true, size: 25,height: 30,width: 30,color: Colors.white,),
                   ):
               Text(
             _formatBalance(_homeController.userBalance.value),
@@ -190,6 +190,8 @@ class BrokenLinePainter extends CustomPainter {
 }
 
 class BrokenLineWidget extends StatelessWidget {
+  const BrokenLineWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(

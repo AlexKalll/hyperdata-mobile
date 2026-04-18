@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leyu_mobile/core/theme/app_colors.dart';
-import 'package:leyu_mobile/core/utils/message.dart';
 import 'package:leyu_mobile/core/widgets/loading.dart';
 import '../../../../../core/utils/screen_size.dart';
 import '../controllers/auth_controller.dart';
-import '../widgets/logo_widget.dart';
 import '../widgets/request_otp_widget.dart';
 import '../widgets/reset_password_widget.dart';
 import '../widgets/verify_otp_widget.dart';

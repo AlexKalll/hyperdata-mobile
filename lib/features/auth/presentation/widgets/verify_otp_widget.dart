@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:leyu_mobile/core/theme/app_colors.dart';
-import 'package:leyu_mobile/core/utils/message.dart';
 
 import '../../../../../core/utils/screen_size.dart';
 import '../../../../../core/widgets/button.dart';

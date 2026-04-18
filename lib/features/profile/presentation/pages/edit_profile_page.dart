@@ -16,7 +16,7 @@ class EditProfilePage extends StatelessWidget {
             // Header
             _buildHeader(),
             // Content
-            Expanded(
+            const Expanded(
               child: EditProfileWidget(),
             ),
           ],

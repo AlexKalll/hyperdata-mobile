@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leyu_mobile/core/utils/message.dart';
 import 'package:leyu_mobile/core/widgets/button.dart';
 import 'package:leyu_mobile/core/widgets/image.dart';
 

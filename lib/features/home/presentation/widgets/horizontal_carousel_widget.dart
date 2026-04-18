@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:leyu_mobile/core/theme/app_colors.dart';
-import 'package:leyu_mobile/core/utils/screen_size.dart';
 
 class HorizontalCarouselWidget extends StatefulWidget {
   final List<Widget> items;

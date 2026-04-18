@@ -66,7 +66,7 @@ class ButtonWidget extends StatelessWidget {
                   icon != null ? Row(
                     children: [
                       icon!,
-                      SizedBox(width: 7,)
+                      const SizedBox(width: 7,)
                     ],
                   ):Container(),
                   Text(text, style: TextStyle(fontSize: fontSize,fontWeight: icon != null ? FontWeight.bold:FontWeight.normal)),

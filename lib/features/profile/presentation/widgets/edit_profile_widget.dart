@@ -242,7 +242,7 @@ class EditProfileWidget extends StatelessWidget {
                 ))
               ],
             ),
-            SizedBox(height: 20)
+            const SizedBox(height: 20)
           ],
         ),
       ),
@@ -285,7 +285,7 @@ class EditProfileWidget extends StatelessWidget {
 
           // Save Button
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: 50,
               child: ElevatedButton(
                 onPressed: controller.saveProfile,

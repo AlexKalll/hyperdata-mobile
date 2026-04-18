@@ -10,7 +10,7 @@ import '../../../../core/widgets/input_box.dart';
 import '../controllers/auth_controller.dart';
 
 class RegisterUserInfoWidget extends StatefulWidget {
-  RegisterUserInfoWidget({super.key});
+  const RegisterUserInfoWidget({super.key});
 
   @override
   State<RegisterUserInfoWidget> createState() => _RegisterUserInfoWidgetState();

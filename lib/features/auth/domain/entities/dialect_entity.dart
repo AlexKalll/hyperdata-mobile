@@ -1,6 +1,5 @@
 import 'package:leyu_mobile/features/auth/data/models/dialect.dart';
 
-import '../../data/models/language.dart';
 
 class DialectEntity {
   final String id;

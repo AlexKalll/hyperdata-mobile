@@ -140,8 +140,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                             primary: AppColors.primary,
                             onPrimary: Colors.white,
                             onSurface: AppColors.primary,
-                          ),
-                          dialogBackgroundColor: Colors.white,
+                          ), dialogTheme: DialogThemeData(backgroundColor: Colors.white),
                         ),
                         child: child!,
                       );

@@ -221,7 +221,7 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                     ),
                   ],
                 ),
-                SizedBox(height: 2.0),
+                const SizedBox(height: 2.0),
                 SliderTheme(
                   data: const SliderThemeData(
                     trackShape: RoundedRectSliderTrackShape(),
@@ -239,7 +239,7 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                       await _audioPlayer.seek(Duration(seconds: value.toInt()));
                     },
                     activeColor: AppColors.primary,
-                    inactiveColor: Color(0xFFDFDFDF),
+                    inactiveColor: const Color(0xFFDFDFDF),
                   ),
                 ),
               ],

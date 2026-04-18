@@ -16,8 +16,8 @@ class ChangePasswordPage extends StatelessWidget {
             // Header
             _buildHeader(),
             // Content
-            Expanded(
-              child: const ChangePasswordWidget(),
+            const Expanded(
+              child: ChangePasswordWidget(),
             ),
           ],
         ),

@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leyu_mobile/core/services/onesignal_service.dart';
 import 'package:leyu_mobile/core/utils/message.dart';
-import 'package:leyu_mobile/features/auth/domain/entities/dialect_entity.dart';
-import 'package:leyu_mobile/features/auth/domain/entities/language_entity.dart';
-import 'package:leyu_mobile/features/auth/domain/usecases/base_data_usecase.dart';
 import 'package:leyu_mobile/core/cache/local_storage.dart';
 import 'package:leyu_mobile/features/home/presentation/controllers/home_controller.dart';
 import 'package:leyu_mobile/features/profile/domain/usecases/profile_usecase.dart';
 import 'package:leyu_mobile/features/auth/data/models/user.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfileController extends GetxController {
   final LocalStorage _localStorage;

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:leyu_mobile/core/services/onboarding_service.dart';
-import 'package:leyu_mobile/features/auth/presentation/pages/register_page.dart';
 import 'package:leyu_mobile/routes/app_routes.dart';
 
 class IntroductionController extends GetxController {

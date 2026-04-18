@@ -82,7 +82,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.profilePage,
-      page: () => MainProfileScreen(),
+      page: () => const MainProfileScreen(),
       binding: ProfileBinding(),
     ),
     GetPage(

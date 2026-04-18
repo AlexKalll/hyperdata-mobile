@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leyu_mobile/core/utils/message.dart';
 import 'package:leyu_mobile/core/widgets/button.dart';
 import 'package:leyu_mobile/core/widgets/image.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/screen_size.dart';
 
 class TestUnderReviewWidget extends StatelessWidget {

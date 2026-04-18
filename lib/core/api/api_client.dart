@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../errors/exceptions.dart';
 import 'api_constants.dart';
 import 'api_interceptor.dart';

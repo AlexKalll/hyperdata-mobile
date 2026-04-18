@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
               // Header
               _buildHeader(),
               // Content
-              Expanded(
+              const Expanded(
                 child: ProfileMainWidget(),
               ),
             ],

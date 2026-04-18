@@ -1,10 +1,7 @@
-import 'package:leyu_mobile/features/home/data/models/task.dart';
 import 'package:leyu_mobile/features/home/domain/entities/task_entity.dart';
 
-import '../../data/models/micro_task.dart';
 import '../../data/models/task_detail.dart';
 import 'micro_task_entity.dart';
-import 'micro_task_status_enum.dart';
 
 class TaskDetailEntity {
   final bool isTest;

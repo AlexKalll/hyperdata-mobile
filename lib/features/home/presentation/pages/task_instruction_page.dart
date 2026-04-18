@@ -318,7 +318,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.article,
+                                  const Icon(Icons.article,
                                       color: AppColors.primary, size: 20),
                                   const SizedBox(width: 8),
                                   Text(
@@ -332,7 +332,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                instruction!.content,
+                                instruction.content,
                                 style:
                                     const TextStyle(fontSize: 14, height: 1.5),
                               ),
@@ -348,7 +348,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: CachedNetworkImage(
-                              imageUrl: instruction!.imageInstructionUrl!,
+                              imageUrl: instruction.imageInstructionUrl!,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Container(
                                 height: 200,
@@ -372,7 +372,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                           title: 'home.tasks.video_guide'.tr,
                           child: _hasVideoError
                               ? _buildVideoError(
-                                  instruction!.videoInstructionUrl!)
+                                  instruction.videoInstructionUrl!)
                               : _isVideoInitialized
                                   ? Column(
                                       children: [
@@ -411,7 +411,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                           icon: Icons.headphones,
                           title: 'home.tasks.audio_guide'.tr,
                           child: _buildAudioPlayer(
-                              instruction!.audioInstructionUrl!),
+                              instruction.audioInstructionUrl!),
                         ),
 
                       const SizedBox(height: 20),
@@ -596,11 +596,11 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.launch, size: 16, color: AppColors.primary),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6),
                   Text(
                     'Open in Browser',
                     style: TextStyle(
@@ -636,7 +636,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
           ),
           child: Row(
             children: [
-              Icon(Icons.open_in_browser, color: AppColors.primary, size: 32),
+              const Icon(Icons.open_in_browser, color: AppColors.primary, size: 32),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -661,7 +661,7 @@ class _TaskInstructionPageState extends State<TaskInstructionPage> {
                   ],
                 ),
               ),
-              Icon(Icons.launch, color: AppColors.primary, size: 20),
+              const Icon(Icons.launch, color: AppColors.primary, size: 20),
             ],
           ),
         ),

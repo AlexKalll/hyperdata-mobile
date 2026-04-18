@@ -51,7 +51,7 @@ class EntityChooserWidget extends StatelessWidget {
             ],
           ),
         ),
-        Divider(thickness: 1,color: Colors.black,)
+        const Divider(thickness: 1,color: Colors.black,)
       ],
     );
   }
@@ -60,7 +60,7 @@ class EntityChooserWidget extends StatelessWidget {
 
 Widget entityWidget(dynamic entity, EntityType entityType, bool isChosen){
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 6),
+    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 6),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         // border: Border.all(width: 0.5,color: isChosen?Colors.green:Colors.black),
@@ -77,7 +77,7 @@ Widget entityWidget(dynamic entity, EntityType entityType, bool isChosen){
             errorImageUrl:"${entityType.name}.svg",
             errorImageColor: isChosen?Colors.white:Colors.black
         ),
-        SizedBox(width: 10,),
+        const SizedBox(width: 10,),
         Text(entity.name,style: TextStyle(fontWeight: FontWeight.bold,color: isChosen?Colors.white:Colors.black))
       ],
     ),

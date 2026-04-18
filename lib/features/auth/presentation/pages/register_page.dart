@@ -53,7 +53,7 @@ class RegisterPage extends StatelessWidget {
                                 child: const Icon(Icons.arrow_back, size: 26),
                               ),
                               const Spacer(),
-                              LanguageChanger()
+                              const LanguageChanger()
                             ],
                           ),
                           SizedBox(height: getScreenHeight(context) * 0.025),

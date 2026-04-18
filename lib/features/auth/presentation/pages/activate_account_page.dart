@@ -7,10 +7,6 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/utils/screen_size.dart';
 import '../../../../../core/widgets/button.dart';
 import '../controllers/auth_controller.dart';
-import '../widgets/logo_widget.dart';
-import '../widgets/request_otp_widget.dart';
-import '../widgets/reset_password_widget.dart';
-import '../widgets/verify_otp_widget.dart';
 
 class ActivateAccountPage extends StatefulWidget {
 

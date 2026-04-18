@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leyu_mobile/core/utils/screen_size.dart';
 import 'package:leyu_mobile/features/home/presentation/controllers/home_controller.dart';
 import 'package:leyu_mobile/features/home/domain/entities/micro_task_status_enum.dart';
 

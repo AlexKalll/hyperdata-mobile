@@ -313,15 +313,15 @@ class SubmissionHistoryBottomSheet extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             Icon(
                               Icons.error_outline_rounded,
                               size: 18,
                               color: AppColors.red,
                             ),
-                            const SizedBox(width: 8),
-                            const Text(
+                            SizedBox(width: 8),
+                            Text(
                               'Rejection Reasons',
                               style: TextStyle(
                                 fontSize: 13,
@@ -344,7 +344,7 @@ class SubmissionHistoryBottomSheet extends StatelessWidget {
                                         margin: const EdgeInsets.only(top: 6),
                                         width: 6,
                                         height: 6,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: AppColors.red,
                                           shape: BoxShape.circle,
                                         ),

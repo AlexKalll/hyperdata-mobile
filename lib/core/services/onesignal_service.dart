@@ -96,7 +96,7 @@ class OneSignalService {
   /// Check if user has granted notification permission
   static Future<bool> hasNotificationPermission() async {
     try {
-      final permission = await OneSignal.Notifications.permission;
+      final permission = OneSignal.Notifications.permission;
       return permission;
     } catch (e) {
       _logger.e('Error checking notification permission: $e');

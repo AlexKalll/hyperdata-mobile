@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:leyu_mobile/core/utils/message.dart';
 import '../../domain/usecases/auth_usecase.dart';
 
 class SplashScreenController extends GetxController {

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:leyu_mobile/core/utils/message.dart';
 
 import '../../../../core/utils/screen_size.dart';
 import '../../../../core/widgets/button.dart';
-import '../../../../core/widgets/date_picker.dart';
-import '../../../../core/widgets/dropdown.dart';
-import '../../../../core/widgets/input_box.dart';
 import '../controllers/auth_controller.dart';
 
 class RegisterTermsConditionsWidget extends StatelessWidget {

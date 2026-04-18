@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leyu_mobile/core/widgets/button.dart';
-import 'package:leyu_mobile/core/widgets/image.dart';
 import 'package:leyu_mobile/features/home/domain/entities/task_status_enum.dart';
 import 'package:leyu_mobile/features/home/presentation/widgets/progress_circle_widget.dart';
 import 'package:leyu_mobile/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/screen_size.dart';
-import '../../data/models/task.dart';
 import '../../domain/entities/task_entity.dart';
 import '../../domain/entities/task_type_enum.dart';
 import '../controllers/home_controller.dart';

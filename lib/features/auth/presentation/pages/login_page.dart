@@ -53,7 +53,7 @@ class LoginPage extends StatelessWidget {
                               child: const Icon(Icons.arrow_back, size: 26),
                             ),
                             const Spacer(),
-                            LanguageChanger()
+                            const LanguageChanger()
                           ],
                         ),
                         SizedBox(height: getScreenHeight(context) * 0.02),
@@ -74,7 +74,7 @@ class LoginPage extends StatelessWidget {
                                 placeHolder: "auth.login.phone_placeholder".tr,
                                 showLabel: true,
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               InputBoxWidget(
                                 inputType: InputType.password,
                                 label: "auth.login.password".tr,

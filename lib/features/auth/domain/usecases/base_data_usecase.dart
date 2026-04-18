@@ -1,6 +1,4 @@
 import 'package:leyu_mobile/features/auth/domain/entities/dialect_entity.dart';
-import 'package:leyu_mobile/features/auth/domain/entities/dialect_entity.dart';
-import 'package:leyu_mobile/features/auth/domain/entities/dialect_entity.dart';
 import 'package:leyu_mobile/features/auth/domain/entities/language_entity.dart';
 
 import '../../../../core/utils/message.dart';
