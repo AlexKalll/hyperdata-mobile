@@ -47,14 +47,16 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     print(json);
+    // Detail responses use deadline; task lists use dead_line.
+    final deadline = json['deadline'] ?? json['dead_line'];
     return Task(
       id: json['id'] as String?,
       name: json['name'] as String?,
       description: json['description'] as String?,
       type: json['task_type'] as String?,
       requireContributorTest: json['require_contributor_test'] as bool?,
-      dueDate: json['dead_line'] != null
-          ? DateTime.tryParse(json['dead_line'] as String)
+      dueDate: deadline != null
+          ? DateTime.tryParse(deadline as String)
           : null,
       averageTime: json['average_time'] as int?,
       doneCount: json['done_count'] as int?,

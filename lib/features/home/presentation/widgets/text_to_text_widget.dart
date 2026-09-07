@@ -77,7 +77,13 @@ class _TextToTextWidgetState extends State<TextToTextWidget> {
   }
 
   void _saveCurrentTextBeforeDispose() {
-    final currentMicroTask = _getCurrentMicroTask();
+    final task = _controller.selectedTaskDetail.value;
+    final index = _controller.selectedMicroTaskIndex.value;
+    // Successful submission clears the selection before this widget is disposed.
+    if (task == null || index == null || index < 0 || index >= task.microTasks.length) {
+      return;
+    }
+    final currentMicroTask = task.microTasks[index];
     if (_isMicroTaskEligible(currentMicroTask)) {
       final currentText = _textController.text.trim();
       if (currentText.isNotEmpty) {

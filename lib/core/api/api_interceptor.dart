@@ -11,7 +11,12 @@ import 'api_constants.dart';
 
 class ApiInterceptor extends Interceptor {
 
-  final LocalStorage _localStorage = LocalStorage();
+  final LocalStorage _localStorage;
+  final Dio _refreshDio;
+
+  ApiInterceptor({LocalStorage? localStorage, Dio? refreshDio})
+      : _localStorage = localStorage ?? LocalStorage(),
+        _refreshDio = refreshDio ?? Dio();
 
 
   @override
@@ -71,12 +76,19 @@ class ApiInterceptor extends Interceptor {
     final refreshToken = await _localStorage.getRefreshToken();
     if(refreshToken != null && refreshToken.isNotEmpty) {
       try {
-        final response = await Dio().post("${ApiConstants.baseUrl}/auth/refresh-access-token", data: {
-          "refreshToken": refreshToken
+        final response = await _refreshDio.post("${ApiConstants.baseUrl}/iam/auth/refresh-token", data: {
+          "refresh_token": refreshToken
         });
-        if(response.statusCode == 200) {
-          final newAccessToken = response.data["accessToken"];
-          final newRefreshToken = response.data["refreshToken"];
+        final status = response.statusCode;
+        if (status != null && status >= 200 && status < 300) {
+          final body = response.data;
+          final tokens = body is Map ? body['data'] : null;
+          final newAccessToken = tokens is Map ? tokens['access_token'] : null;
+          final newRefreshToken = tokens is Map ? tokens['refresh_token'] : null;
+          if (newAccessToken is! String || newAccessToken.isEmpty ||
+              newRefreshToken is! String || newRefreshToken.isEmpty) {
+            throw Exception('Invalid refresh token response');
+          }
           await _localStorage.saveTokens(accessToken: newAccessToken, refreshToken: newRefreshToken);
           return newAccessToken;
         } else {

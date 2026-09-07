@@ -56,7 +56,6 @@ class TaskRemoteDataSource{
   Future<void> submitTextTask(String taskId, int batch, bool isTest, Map<String, String> textOutputs) async {
       await _apiClient.post('/task-distribution/$taskId/contribute',
           data: {
-            'batch': batch,
             'is_test': isTest,
             'attempts': [
               for (var entry in textOutputs.entries)
