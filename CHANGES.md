@@ -60,3 +60,15 @@ Section 4(b) of the Apache License, Version 2.0.
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
 - Do not include documentation-only files in implementation commits (exception: CHANGES.md may be committed separately)
 - Before committing implementation changes, record a concise, dated summary in this file
+
+## 2026-09-07
+
+### Mobile workflow compatibility
+- Removed the unsupported batch field from text contribution JSON while preserving existing callers and audio submission fields.
+- Aligned automatic token refresh with the IAM endpoint, refresh_token request field, and nested token response.
+- Read detail deadline and list dead_line values without dropping list API compatibility.
+- Guarded text widget disposal when successful submission has already cleared the selected task or micro-task index.
+- Added focused regression tests for text submission payloads and task deadline parsing.
+- Handle successful 2xx refresh responses using data.refresh_token in both refresh paths, with transport tests for token persistence and invalid-response rejection.
+- Replaced environment-dependent notification tests and the obsolete counter test with deterministic API-contract and button-widget tests.
+- Reviewed regression coverage: retained HTTP 200/201 refresh success and malformed/empty/unauthorized rejection cases, made HTTP 204 fixtures bodyless, and registered failure-safe test cleanup.

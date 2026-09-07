@@ -1,76 +1,51 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mahder_mobile/core/api/api_client.dart';
 import 'package:mahder_mobile/features/notification/data/datasources/notification_remote_data_source.dart';
 
-/// Integration test for notification count API endpoint
-/// This test verifies:
-/// 1. API endpoint is correctly configured
-/// 2. Authentication headers are properly included
-/// 3. Response parsing works correctly
+import 'support/fake_api_transport.dart';
+
 void main() {
-  group('Notification Count API Integration', () {
-    late NotificationRemoteDataSource dataSource;
-    late ApiClient apiClient;
-
-    setUp(() {
-      apiClient = ApiClient();
-      dataSource = NotificationRemoteDataSource(apiClient);
+  test('unread count uses the count endpoint and parses data',
+      () async {
+    final dio = Dio(BaseOptions(baseUrl: 'https://mobile.test/api'));
+    addTearDown(dio.close);
+    dio.httpClientAdapter = FakeApiTransport((request) {
+      expect(request.method, 'GET');
+      expect(request.uri.path, '/api/notifications/count-new');
+      return {'data': 7};
     });
+    final source = NotificationRemoteDataSource(ApiClient(dio: dio));
+    expect(await source.getUnreadCount(), 7);
+  });
 
-    test('getUnreadCount should return integer count', () async {
-      // This test verifies the API integration
-      // Note: This requires a valid authentication token to be present
-      // In a real scenario, you would mock the API client or use a test token
-
-      try {
-        final count = await dataSource.getUnreadCount();
-
-        // Verify the count is a valid integer
-        expect(count, isA<int>());
-        expect(count, greaterThanOrEqualTo(0));
-
-        print('✅ Successfully fetched notification count: $count');
-      } catch (e) {
-        // If the test fails due to authentication, that's expected
-        // The important thing is that the endpoint and parsing logic are correct
-        print('⚠️ API call failed (expected if not authenticated): $e');
-
-        // Verify the error is related to authentication, not endpoint configuration
-        expect(
-          e.toString().contains('401') ||
-          e.toString().contains('Unauthorized') ||
-          e.toString().contains('No internet'),
-          isTrue,
-          reason: 'Error should be authentication-related, not endpoint configuration',
-        );
-      }
+  test('notifications sends pagination and parses nonempty results', () async {
+    final dio = Dio(BaseOptions(baseUrl: 'https://mobile.test/api'));
+    addTearDown(dio.close);
+    dio.httpClientAdapter = FakeApiTransport((request) {
+      expect(request.method, 'GET');
+      expect(request.uri.path, '/api/notifications/me');
+      expect(request.queryParameters, {'page': 2, 'limit': 5});
+      return {
+        'data': {
+          'result': [
+            {'id': 'notice-1', 'title': 'Task reviewed', 'is_read': true}
+          ],
+          'total': 6,
+          'page': 2,
+          'limit': 5,
+          'totalPages': 2,
+        },
+      };
     });
-
-    test('getNotifications should handle pagination parameters', () async {
-      try {
-        final response = await dataSource.getNotifications(
-          page: 1,
-          limit: 10,
-        );
-
-        // Verify response structure
-        expect(response.notifications, isA<List>());
-        expect(response.page, equals(1));
-        expect(response.limit, equals(10));
-
-        print('✅ Successfully fetched notifications with pagination');
-      } catch (e) {
-        print('⚠️ API call failed (expected if not authenticated): $e');
-
-        // Verify the error is related to authentication
-        expect(
-          e.toString().contains('401') ||
-          e.toString().contains('Unauthorized') ||
-          e.toString().contains('No internet'),
-          isTrue,
-          reason: 'Error should be authentication-related',
-        );
-      }
-    });
+    final source = NotificationRemoteDataSource(ApiClient(dio: dio));
+    final result = await source.getNotifications(page: 2, limit: 5);
+    expect(result.page, 2);
+    expect(result.limit, 5);
+    expect(result.total, 6);
+    expect(result.totalPages, 2);
+    expect(result.notifications.single.id, 'notice-1');
+    expect(result.notifications.single.title, 'Task reviewed');
+    expect(result.notifications.single.isRead, isTrue);
   });
 }
