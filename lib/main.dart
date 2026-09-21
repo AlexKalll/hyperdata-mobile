@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -59,6 +60,11 @@ void main() async {
 /// Performs cleanup routine on app startup
 /// Removes orphaned files and invalid database entries
 Future<void> _performStartupCleanup() async {
+  if (kIsWeb) {
+    print('Skipping native file cleanup on web');
+    return;
+  }
+
   try {
     print('Starting app startup cleanup...');
 

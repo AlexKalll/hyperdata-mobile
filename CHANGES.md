@@ -61,6 +61,12 @@ Section 4(b) of the Apache License, Version 2.0.
 - Do not include documentation-only files in implementation commits (exception: CHANGES.md may be committed separately)
 - Before committing implementation changes, record a concise, dated summary in this file
 
+## 2026-09-21
+
+### Flutter Web authentication compatibility
+- Fixed contributor login parsing for the backend's nested score response and guaranteed the loading state is cleared on failures.
+- Skipped native-only OneSignal and file cleanup on Web, registered home-screen storage, and handled empty profile image URLs.
+
 ## 2026-09-07
 
 ### Mobile workflow compatibility

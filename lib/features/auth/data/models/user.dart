@@ -1,6 +1,16 @@
 import 'package:mahder_mobile/features/auth/data/models/dialect.dart';
 import 'package:mahder_mobile/features/auth/data/models/language.dart';
 
+int? _parseScore(dynamic value) {
+  if (value is num) {
+    return value.toInt();
+  }
+  if (value is Map) {
+    return _parseScore(value['score']);
+  }
+  return value == null ? null : int.tryParse(value.toString());
+}
+
 class User {
   final String? id;
   final String? firstName;
@@ -52,7 +62,7 @@ class User {
       role: json['role'] != null ? Role.fromJson(json['role']) : null,
       language: json['language'] != null ? Language.fromJson(json['language']) : null,
       dialect: json['dialect'] != null ? Dialect.fromJson(json['dialect']) : null,
-      score: json['score']
+      score: _parseScore(json['score'])
     );
   }
 }

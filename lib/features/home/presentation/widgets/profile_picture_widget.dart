@@ -16,24 +16,26 @@ class ProfilePictureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasProfilePicture = profilePictureUrl?.isNotEmpty == true;
+
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        image: profilePictureUrl != null
+        image: hasProfilePicture
             ? DecorationImage(
                 image: NetworkImage(profilePictureUrl!),
                 fit: BoxFit.cover,
               )
             : null,
-        color: profilePictureUrl != null ? null : AppColors.primary,
+        color: hasProfilePicture ? null : AppColors.primary,
         border: Border.all(
           color: AppColors.primary,
           width: 1.5,
         ),
       ),
-      child: profilePictureUrl == null
+      child: !hasProfilePicture
           ? Center(
               child: Text(
                 '${firstName?.substring(0, 1) ?? ''}${lastName?.substring(0, 1) ?? ''}',
