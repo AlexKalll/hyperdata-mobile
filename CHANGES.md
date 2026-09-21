@@ -63,6 +63,16 @@ Section 4(b) of the Apache License, Version 2.0.
 
 ## 2026-09-21
 
+### Android toolchain compatibility
+- Updated the Gradle wrapper from 8.12 to 8.14 and Android Gradle Plugin from 8.9.1 to 8.11.1 for the current Flutter Android toolchain.
+- Added Flutter migration compatibility flags for built-in Kotlin and the new Android Gradle Plugin DSL.
+- Updated the Kotlin Gradle Plugin from 2.1.0 to 2.2.20, the minimum version supported by Flutter 3.47, so the Android debug build can run on current emulators.
+- Made release signing conditional on complete keystore properties so debug builds work without a local release keystore.
+
+### Analysis and dependency maintenance
+- Excluded generated/platform build directories from Dart analysis.
+- Refreshed `pubspec.lock` after dependency resolution, including transitive package versions and SDK metadata.
+
 ### Flutter Web authentication compatibility
 - Fixed contributor login parsing for the backend's nested score response and guaranteed the loading state is cleared on failures.
 - Skipped native-only OneSignal and file cleanup on Web, registered home-screen storage, and handled empty profile image URLs.
