@@ -2,7 +2,7 @@ name: mahder_mobile
 description: "A mobile app for dataset contributors of Mahder"
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
   sdk: ">=3.5.0-188.0.dev <4.0.0"
@@ -34,7 +34,7 @@ dependencies:
   dotted_border:
   intl:
   dropdown_button2: ^2.3.9
-  permission_handler:
+  permission_handler: 11.4.0
   record:
   just_audio:
   wave_blob:
