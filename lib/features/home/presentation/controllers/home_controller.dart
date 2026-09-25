@@ -6,7 +6,6 @@ import 'package:mahder_mobile/core/cache/cache_manager.dart';
 import 'package:mahder_mobile/core/utils/message.dart';
 import 'package:mahder_mobile/core/utils/storage_logger.dart';
 import 'package:mahder_mobile/core/utils/storage_error_handler.dart';
-import 'package:mahder_mobile/features/home/data/models/task_detail.dart';
 import 'package:mahder_mobile/features/home/domain/entities/task_detail_entity.dart';
 import 'package:mahder_mobile/features/home/domain/entities/task_entity.dart';
 import 'package:mahder_mobile/features/home/presentation/widgets/submission_history_bottom_sheet.dart';
@@ -237,11 +236,11 @@ class HomeController extends GetxController {
     hasStartedTest.value = true;
   }
 
-  bool setRecordedAudio(File audioFile) {
+  int? setRecordedAudio(File audioFile) {
     if (!_isTaskAndMicroTaskSelected()) {
       showErrorMessage(
           "Please select a task and a subtask before recording audio.");
-      return false;
+      return null;
     }
 
     final microTaskId = _getCurrentMicroTaskId();
@@ -255,18 +254,17 @@ class HomeController extends GetxController {
 
     if (currentIndex == lastEligibleIndex && allEligibleRecorded) {
       submitAudioTask();
-      return false;
+      return null;
     }
 
     final nextEligibleIndex = _findNextEligibleIndex(currentIndex);
     if (nextEligibleIndex == null) {
       showErrorMessage("Please complete all eligible tasks before submitting.");
-      return false;
+      return null;
     }
 
-    selectedMicroTaskIndex.value = nextEligibleIndex;
     print("Recorded audio files: $recordedAudioFiles");
-    return true;
+    return nextEligibleIndex;
   }
 
   Future<void> submitAudioTask() async {
@@ -747,8 +745,12 @@ class HomeController extends GetxController {
   // ========== Helper Methods ==========
 
   bool _isTaskAndMicroTaskSelected() {
-    return selectedTaskDetail.value != null &&
-        selectedMicroTaskIndex.value != null;
+    final taskDetail = selectedTaskDetail.value;
+    final microTaskIndex = selectedMicroTaskIndex.value;
+    return taskDetail != null &&
+        microTaskIndex != null &&
+        microTaskIndex >= 0 &&
+        microTaskIndex < taskDetail.microTasks.length;
   }
 
   String _getCurrentMicroTaskId() {
