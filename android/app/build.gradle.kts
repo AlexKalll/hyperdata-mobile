@@ -30,12 +30,8 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
@@ -66,16 +62,24 @@ android {
 
     buildTypes {
         release {
-            if (hasReleaseSigning) {
-                signingConfig = signingConfigs.getByName("release")
-            }
+            // Use the configured release key when available; otherwise produce an
+            // installable sideload APK signed with the local debug key.
+            signingConfig = signingConfigs.getByName(
+                if (hasReleaseSigning) "release" else "debug"
+            )
         }
     }
 
-    packagingOptions {
-        dex {
+    packaging {
+        jniLibs {
             useLegacyPackaging = true
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
