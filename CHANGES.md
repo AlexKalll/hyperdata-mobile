@@ -109,3 +109,14 @@ Section 4(b) of the Apache License, Version 2.0.
 - Handle successful 2xx refresh responses using data.refresh_token in both refresh paths, with transport tests for token persistence and invalid-response rejection.
 - Replaced environment-dependent notification tests and the obsolete counter test with deterministic API-contract and button-widget tests.
 - Reviewed regression coverage: retained HTTP 200/201 refresh success and malformed/empty/unauthorized rejection cases, made HTTP 204 fixtures bodyless, and registered failure-safe test cleanup.
+
+## 2026-09-25
+
+### Wallet actions
+
+- Connected the wallet Withdraw button to the existing withdrawal API with a
+  validated payment method, phone number, and amount dialog.
+- Connected the wallet History button to the existing transaction endpoint and
+  added a combined credit/withdrawal history sheet.
+- Preserved the backend's configured withdrawal safeguard; the UI displays its
+  error instead of leaving the button as a silent no-op.

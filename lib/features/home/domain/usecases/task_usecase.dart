@@ -6,6 +6,7 @@ import 'package:mahder_mobile/features/home/domain/entities/task_entity.dart';
 import '../../../../core/utils/message.dart';
 import '../entities/task_detail_entity.dart';
 import '../repositories/task_repository.dart';
+import '../../data/models/wallet_transaction.dart';
 
 class TaskUsecase{
 
@@ -63,6 +64,36 @@ class TaskUsecase{
       print('Error fetching balance: $e');
       return 0.0;
     }
+  }
+
+  Future<bool> withdrawMoney({
+    required double amount,
+    required String phoneNumber,
+    required String paymentMethod,
+  }) async {
+    final result = await _taskRepository.withdrawMoney(
+      amount: amount,
+      phoneNumber: phoneNumber,
+      paymentMethod: paymentMethod,
+    );
+    return result.fold((failure) {
+      showErrorMessage('Withdrawal failed: ${failure.message}');
+      return false;
+    }, (_) => true);
+  }
+
+  Future<List<WalletTransaction>> getWalletTransactions({
+    int page = 1,
+    int pageSize = 20,
+  }) async {
+    final result = await _taskRepository.getWalletTransactions(
+      page: page,
+      pageSize: pageSize,
+    );
+    return result.fold((failure) {
+      showErrorMessage('Fetching wallet history failed: ${failure.message}');
+      return <WalletTransaction>[];
+    }, (transactions) => transactions);
   }
 
   Future<List<dynamic>> getSubmissionHistory(String microTaskId) async {

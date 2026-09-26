@@ -10,6 +10,8 @@ import 'package:mahder_mobile/features/home/data/models/task_detail.dart';
 import 'package:mahder_mobile/features/home/domain/entities/task_detail_entity.dart';
 import 'package:mahder_mobile/features/home/domain/entities/task_entity.dart';
 import 'package:mahder_mobile/features/home/presentation/widgets/submission_history_bottom_sheet.dart';
+import 'package:mahder_mobile/features/home/presentation/widgets/wallet_history_bottom_sheet.dart';
+import 'package:mahder_mobile/features/home/data/models/wallet_transaction.dart';
 import 'package:mahder_mobile/features/notification/domain/usecases/notification_usecase.dart';
 import 'package:mahder_mobile/features/profile/domain/usecases/profile_usecase.dart';
 import '../../../../core/cache/local_storage.dart';
@@ -42,6 +44,9 @@ class HomeController extends GetxController {
 
   RxBool isBalanceLoading = false.obs;
   RxDouble userBalance = 0.0.obs;
+  RxBool isWithdrawing = false.obs;
+  RxBool isWalletHistoryLoading = false.obs;
+  RxList<WalletTransaction> walletTransactions = <WalletTransaction>[].obs;
 
   RxInt notificationCount = 0.obs;
 
@@ -117,6 +122,46 @@ class HomeController extends GetxController {
     double balance = await _taskUseCase.getBalance();
     userBalance.value = balance;
     isBalanceLoading.value = false;
+  }
+
+  Future<bool> withdrawMoney({
+    required double amount,
+    required String phoneNumber,
+    required String paymentMethod,
+  }) async {
+    isWithdrawing.value = true;
+    try {
+      final success = await _taskUseCase.withdrawMoney(
+        amount: amount,
+        phoneNumber: phoneNumber,
+        paymentMethod: paymentMethod,
+      );
+      if (success) {
+        fetchUserBalance();
+        await showSuccessMessage('Withdrawal submitted successfully');
+      }
+      return success;
+    } finally {
+      isWithdrawing.value = false;
+    }
+  }
+
+  Future<void> fetchWalletHistory() async {
+    isWalletHistoryLoading.value = true;
+    try {
+      walletTransactions.value = await _taskUseCase.getWalletTransactions();
+    } finally {
+      isWalletHistoryLoading.value = false;
+    }
+  }
+
+  void showWalletHistory() {
+    fetchWalletHistory();
+    Get.bottomSheet(
+      const WalletHistoryBottomSheet(),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
   }
 
   Future<void> fetchTasks({bool nextPage = false, String? filter}) async {

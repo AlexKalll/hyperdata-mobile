@@ -99,7 +99,7 @@ class ApiClient {
             return ForbiddenException("Forbidden access.");
           } else if (statusCode == 404) {
             return NotFoundException(responseData?["message"] ?? "Resource not found.");
-          } else if (statusCode == 500) {
+          } else if (statusCode >= 500) {
             return ServerException(responseData?["message"] ?? "Internal server error.");
           } else {
             return Exception(responseData?["message"] ?? "Unexpected API error.");

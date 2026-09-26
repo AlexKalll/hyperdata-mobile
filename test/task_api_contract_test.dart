@@ -8,6 +8,33 @@ import 'package:mahder_mobile/features/home/data/models/task_detail.dart';
 class RecordingApiClient implements ApiClient {
   String? endpoint;
   dynamic payload;
+  final requests = <Map<String, dynamic>>[];
+
+  @override
+  Future<Response> get(String endpoint,
+      {bool includeToken = false, Map<String, dynamic>? params}) async {
+    requests.add({'endpoint': endpoint, 'params': params});
+    final type = params?['type'] as String;
+    return Response(
+      requestOptions: RequestOptions(path: endpoint),
+      statusCode: 200,
+      data: {
+        'data': {
+          'result': [
+            {
+              'id': type,
+              'amount': type == 'Credit' ? '2.50' : '-1.00',
+              'type': type,
+              'status': 'Done',
+              'created_date': type == 'Credit'
+                  ? '2026-09-25T12:00:00Z'
+                  : '2026-09-24T12:00:00Z',
+            },
+          ],
+        },
+      },
+    );
+  }
 
   @override
   Future<Response> post(String endpoint, {dynamic data, Options? options}) async {
@@ -36,6 +63,34 @@ void main() {
         ],
       });
     }
+  });
+
+  test('wallet actions use the existing withdrawal and transaction endpoints',
+      () async {
+    final client = RecordingApiClient();
+    final source = TaskRemoteDataSource(client);
+
+    await source.withdrawMoney(
+      amount: 2.5,
+      phoneNumber: '+251911234567',
+      paymentMethod: 'Telebirr',
+    );
+
+    expect(client.endpoint, '/wallet/withdraw-money');
+    expect(client.payload, {
+      'amount': 2.5,
+      'phoneNumber': '+251911234567',
+      'paymentMethod': 'Telebirr',
+    });
+
+    final transactions = await source.getWalletTransactions();
+    expect(client.requests.map((request) => request['params']), [
+      {'page': 1, 'limit': 20, 'type': 'Credit'},
+      {'page': 1, 'limit': 20, 'type': 'Withdraw'},
+    ]);
+    expect(transactions.map((transaction) => transaction.type),
+        ['Credit', 'Withdraw']);
+    expect(transactions.first.amount, 2.5);
   });
 
   test('task detail reads deadline', () {
