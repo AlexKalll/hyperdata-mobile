@@ -5,6 +5,7 @@ import 'package:mahder_mobile/features/home/data/models/task_detail.dart';
 import '../../../../core/errors/failure.dart';
 import '../../data/datasources/task_remote_data_source.dart';
 import '../../data/models/task.dart';
+import '../../data/models/wallet_transaction.dart';
 
 class TaskRepository {
   final TaskRemoteDataSource _remoteDataSource;
@@ -54,6 +55,38 @@ class TaskRepository {
     } on Exception catch (e) {
       print('Error fetching balance: $e');
       return 0.0;
+    }
+  }
+
+  Future<Either<Failure, void>> withdrawMoney({
+    required double amount,
+    required String phoneNumber,
+    required String paymentMethod,
+  }) async {
+    try {
+      await _remoteDataSource.withdrawMoney(
+        amount: amount,
+        phoneNumber: phoneNumber,
+        paymentMethod: paymentMethod,
+      );
+      return const Right(null);
+    } on Exception catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  Future<Either<Failure, List<WalletTransaction>>> getWalletTransactions({
+    int page = 1,
+    int pageSize = 20,
+  }) async {
+    try {
+      final response = await _remoteDataSource.getWalletTransactions(
+        page: page,
+        pageSize: pageSize,
+      );
+      return Right(response);
+    } on Exception catch (e) {
+      return Left(mapExceptionToFailure(e));
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:mahder_mobile/core/utils/message.dart';
 import 'package:mahder_mobile/features/home/data/models/task.dart';
 import 'package:mahder_mobile/features/home/data/models/task_detail.dart';
+import 'package:mahder_mobile/features/home/data/models/wallet_transaction.dart';
 
 import '../../../../core/api/api_client.dart';
 
@@ -71,6 +72,62 @@ class TaskRemoteDataSource{
     final response = await _apiClient.get('/wallet/balance');
     print('Response from getBalance: ${response.data}');
     return double.parse(response.data['data'].toString());
+  }
+
+  Future<void> withdrawMoney({
+    required double amount,
+    required String phoneNumber,
+    required String paymentMethod,
+  }) async {
+    await _apiClient.post(
+      '/wallet/withdraw-money',
+      data: {
+        'amount': amount,
+        'phoneNumber': phoneNumber,
+        'paymentMethod': paymentMethod,
+      },
+    );
+  }
+
+  Future<List<WalletTransaction>> getWalletTransactions({
+    int page = 1,
+    int pageSize = 20,
+  }) async {
+    final responses = await Future.wait([
+      _apiClient.get(
+        '/transaction',
+        params: {'page': page, 'limit': pageSize, 'type': 'Credit'},
+      ),
+      _apiClient.get(
+        '/transaction',
+        params: {'page': page, 'limit': pageSize, 'type': 'Withdraw'},
+      ),
+    ]);
+
+    final transactions = <WalletTransaction>[];
+    for (final response in responses) {
+      final body = response.data;
+      final data = body is Map ? body['data'] : null;
+      final result = data is Map ? data['result'] : null;
+      if (result is List) {
+        transactions.addAll(
+          result.whereType<Map>().map(
+                (item) => WalletTransaction.fromJson(
+                  Map<String, dynamic>.from(item),
+                ),
+              ),
+        );
+      }
+    }
+
+    transactions.sort((first, second) {
+      final firstDate =
+          first.createdDate ?? DateTime.fromMillisecondsSinceEpoch(0);
+      final secondDate =
+          second.createdDate ?? DateTime.fromMillisecondsSinceEpoch(0);
+      return secondDate.compareTo(firstDate);
+    });
+    return transactions;
   }
 
   Future<List<dynamic>> getSubmissionHistory(String microTaskId) async {
