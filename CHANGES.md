@@ -120,3 +120,8 @@ Section 4(b) of the Apache License, Version 2.0.
   added a combined credit/withdrawal history sheet.
 - Preserved the backend's configured withdrawal safeguard; the UI displays its
   error instead of leaving the button as a silent no-op.
+
+### Audio recording navigation
+
+- Removed the duplicate index update after saving a recording. Navigation now
+  uses the validated next eligible index and rejects out-of-range selections.
