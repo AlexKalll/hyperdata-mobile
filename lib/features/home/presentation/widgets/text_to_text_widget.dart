@@ -401,9 +401,8 @@ class _TextToTextWidgetState extends State<TextToTextWidget> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        'home.tasks.attempts_left'.trParams({
-          'count': (microTask.allowedRetry - microTask.currentRetry).toString()
-        }),
+        'home.tasks.attempts_left'
+            .trParams({'count': microTask.remainingRetries.toString()}),
         style: const TextStyle(fontSize: 12, color: AppColors.primary),
       ),
     );

@@ -121,7 +121,13 @@ Section 4(b) of the Apache License, Version 2.0.
 - Preserved the backend's configured withdrawal safeguard; the UI displays its
   error instead of leaving the button as a silent no-op.
 
-### Audio recording navigation
+## 2026-09-27
+
+### Audio recording navigation and retry recovery
 
 - Removed the duplicate index update after saving a recording. Navigation now
   uses the validated next eligible index and rejects out-of-range selections.
+- Prevented retry recordings from advancing the selected microtask twice, which
+  could hide the recording and submit controls after a valid recording.
+- Displayed retry availability using the configured retry count rather than
+  treating the initial submission as a retry.

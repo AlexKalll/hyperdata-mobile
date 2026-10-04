@@ -31,6 +31,11 @@ class MicroTaskEntity {
     this.canRetry = false,
   });
 
+  int get remainingRetries {
+    final remaining = allowedRetry - currentRetry + 1;
+    return remaining < 0 ? 0 : remaining;
+  }
+
   static MicroTaskEntity fromModel(MicroTask model) {
     print('Parsing MicroTaskEntity from model with id: ${model.id}');
     print(parseTaskStatus(model.acceptanceStatus));
@@ -46,7 +51,9 @@ class MicroTaskEntity {
       currentRetry: model.currentRetry ?? 0,
       allowedRetry: model.allowedRetry ?? 1,
       acceptanceStatus: parseTaskStatus(model.acceptanceStatus),
-      canRetry: model.canRetry ?? model.currentRetry != null && (model.allowedRetry ?? 1) > (model.currentRetry ?? 0),
+      canRetry: model.canRetry ??
+          (model.currentRetry != null &&
+              (model.allowedRetry ?? 0) >= model.currentRetry!),
     );
   }
 }
