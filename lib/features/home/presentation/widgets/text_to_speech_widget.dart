@@ -431,10 +431,10 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
         return;
       }
 
-      final isSuccess = _controller.setRecordedAudio(audioFile);
-      if (isSuccess) {
+      final nextIndex = _controller.setRecordedAudio(audioFile);
+      if (nextIndex != null) {
         _resetRecordingState();
-        await _navigateToNextMicroTask();
+        await _navigateToMicroTask(nextIndex);
       }
 
       print('Recording submitted: $_currentFilePath');
@@ -455,16 +455,14 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
     });
   }
 
-  Future<void> _navigateToNextMicroTask() async {
-    final currentIndex = _controller.selectedMicroTaskIndex.value!;
-    if (currentIndex <
-        _controller.selectedTaskDetail.value!.microTasks.length) {
+  Future<void> _navigateToMicroTask(int nextIndex) async {
+    final microTasks = _controller.selectedTaskDetail.value!.microTasks;
+    if (nextIndex >= 0 && nextIndex < microTasks.length) {
       final screenHeight = MediaQuery.of(context).size.height;
       final isSmallScreen = ScreenConstants.isSmallScreen(screenHeight);
 
       if (isSmallScreen) {
-        // Small screen: Direct state update (no PageController)
-        _controller.selectedMicroTaskIndex.value = currentIndex + 1;
+        _controller.selectedMicroTaskIndex.value = nextIndex;
         setState(() {
           _currentFilePath = _controller.getRecordedAudioPath();
           _hasRecording =
@@ -476,8 +474,8 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
           _amplitudes.clear();
         });
       } else {
-        // Normal screen: Use PageController animation
-        await _pageController.nextPage(
+        await _pageController.animateToPage(
+          nextIndex,
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );

@@ -109,3 +109,10 @@ Section 4(b) of the Apache License, Version 2.0.
 - Handle successful 2xx refresh responses using data.refresh_token in both refresh paths, with transport tests for token persistence and invalid-response rejection.
 - Replaced environment-dependent notification tests and the obsolete counter test with deterministic API-contract and button-widget tests.
 - Reviewed regression coverage: retained HTTP 200/201 refresh success and malformed/empty/unauthorized rejection cases, made HTTP 204 fixtures bodyless, and registered failure-safe test cleanup.
+
+## 2026-09-25
+
+### Audio recording navigation
+
+- Removed the duplicate index update after saving a recording. Navigation now
+  uses the validated next eligible index and rejects out-of-range selections.
