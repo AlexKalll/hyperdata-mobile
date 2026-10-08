@@ -73,6 +73,27 @@ Section 4(b) of the Apache License, Version 2.0.
 - Excluded generated/platform build directories from Dart analysis.
 - Refreshed `pubspec.lock` after dependency resolution, including transitive package versions and SDK metadata.
 
+## 2026-09-23
+
+### Android release distribution compatibility
+- Kept the previously working Flutter Android toolchain and updated app Java/Kotlin compilation targets to Java 17.
+- Removed the deprecated manifest `extractNativeLibs` attribute and moved native-library packaging to the Android Gradle DSL.
+- Made release builds use the configured release keystore when present, or the local debug key as a fallback so a sideloaded APK is installable without private signing files.
+- Kept the dependency graph focused on the existing application versions and pinned `permission_handler` to the SDK-compatible 11.4.0 release.
+- Replaced the obsolete API fallback with the DuckDNS HTTPS endpoint, required HTTPS in release builds, and incremented the Android build number.
+- Verified a single universal release APK containing ARM 32-bit, ARM 64-bit, and x86-64 native libraries for direct Drive distribution.
+
+## 2026-09-24
+
+### Short-screen task layout
+
+- Use the existing scrollable text/audio submission layout below 700 logical
+  pixels so recording controls do not overflow on compact emulators and phones.
+- Scale and center the empty task state within its available height so the home
+  screen remains overflow-free on a 320x640 emulator.
+
+## 2026-09-22
+
 ### Flutter Web authentication compatibility
 - Fixed contributor login parsing for the backend's nested score response and guaranteed the loading state is cleared on failures.
 - Skipped native-only OneSignal and file cleanup on Web, registered home-screen storage, and handled empty profile image URLs.

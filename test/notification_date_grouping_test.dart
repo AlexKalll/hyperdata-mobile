@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mahder_mobile/features/notification/data/models/notification_model.dart';
 import 'package:mahder_mobile/features/notification/domain/entities/notification_entity.dart';
-import 'package:mahder_mobile/features/notification/domain/usecases/notification_usecase.dart';
 
 void main() {
   group('Notification Date Formatting and Grouping', () {
@@ -140,10 +139,6 @@ void main() {
           updatedDate: twoDaysAgo,
         ),
       ];
-
-      // Create a mock usecase to test grouping
-      // Note: We can't fully test this without mocking the repository
-      // but we can verify the entity methods work correctly
 
       final grouped = <String, List<NotificationEntity>>{};
       for (var notification in notifications) {

@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiConstants {
   static String get baseUrl =>
-      dotenv.env['API_BASE_URL'] ?? 'http://159.223.203.142:3003/api';
+      dotenv.env['API_BASE_URL'] ?? 'https://mahder-api.duckdns.org/api';
 
   // Notification endpoints
   static const String notificationsMe = "/notifications/me";

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mahder_mobile/core/widgets/language_changer.dart';
 import 'package:mahder_mobile/core/widgets/loading.dart';
 import 'package:mahder_mobile/core/widgets/refresher.dart';
-import 'package:mahder_mobile/features/home/data/models/task.dart';
 import 'package:mahder_mobile/features/home/presentation/controllers/home_controller.dart';
 import 'package:mahder_mobile/features/home/presentation/widgets/profile_picture_widget.dart';
 import 'package:mahder_mobile/features/home/presentation/widgets/wallet_widget.dart';
@@ -12,12 +11,11 @@ import 'package:mahder_mobile/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/screen_size.dart';
 import '../../../../core/widgets/image.dart';
-import '../widgets/horizontal_carousel_widget.dart';
 import '../widgets/task_card_widget.dart';
 import '../widgets/task_filter_tabs.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -225,16 +223,23 @@ class _HomePageState extends State<HomePage> {
                         ? const Center(
                         child: LoadingWidget(isTransparent: true,))
                         : tasks.isEmpty
-                        ? Padding(
-                          padding: EdgeInsets.only(top: getScreenHeight(context)*0.05),
-                          child: Center(child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              assetSvgImageWidget("no-task.svg" , height: getScreenHeight(context)*0.25),
-                              SizedBox(height: getScreenHeight(context)*0.02),
-                              Text('home.tasks.empty'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                            ],
-                          )),
+                        ? LayoutBuilder(
+                          builder: (context, constraints) {
+                            final screenHeight = getScreenHeight(context);
+                            final imageHeight = constraints.maxHeight < screenHeight * 0.35
+                                ? constraints.maxHeight * 0.6
+                                : screenHeight * 0.25;
+
+                            return Center(child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                assetSvgImageWidget("no-task.svg", height: imageHeight),
+                                SizedBox(height: screenHeight * 0.02),
+                                Text('home.tasks.empty'.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              ],
+                            ));
+                          },
                         )
                         : ListView.builder(
                       controller: _scrollController,
