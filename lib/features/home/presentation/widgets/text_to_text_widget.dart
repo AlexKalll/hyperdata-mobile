@@ -80,7 +80,10 @@ class _TextToTextWidgetState extends State<TextToTextWidget> {
     final task = _controller.selectedTaskDetail.value;
     final index = _controller.selectedMicroTaskIndex.value;
     // Successful submission clears the selection before this widget is disposed.
-    if (task == null || index == null || index < 0 || index >= task.microTasks.length) {
+    if (task == null ||
+        index == null ||
+        index < 0 ||
+        index >= task.microTasks.length) {
       return;
     }
     final currentMicroTask = task.microTasks[index];
@@ -228,38 +231,28 @@ class _TextToTextWidgetState extends State<TextToTextWidget> {
     final microTask = task.microTasks[currentIndex];
     final isEligible = _isMicroTaskEligible(microTask);
 
-    return Stack(
-      children: [
-        // Main scrollable content
-        SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              _buildTextDisplayCard(context, microTask),
-              _buildSubmissionInfo(),
-              if (isEligible)
-                _buildInputForm(context, task, microTask, useGlobalKeys: true),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-        // Floating navigation buttons on the right
-        if (task.microTasks.length > 1)
-          Positioned(
-            right: 16,
-            top: 0,
-            bottom: 0,
-            child: Center(
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildTextDisplayCard(context, microTask),
+          _buildSubmissionInfo(),
+          if (isEligible)
+            _buildInputForm(context, task, microTask, useGlobalKeys: true),
+          if (task.microTasks.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
               child: _buildNavigationButtons(task, currentIndex,
-                  useGlobalKey: true),
+                  useGlobalKey: true, compact: true),
             ),
-          ),
-      ],
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 
   Widget _buildNavigationButtons(TaskDetailEntity task, int currentIndex,
-      {bool useGlobalKey = true}) {
+      {bool useGlobalKey = true, bool compact = false}) {
     final microTask = task.microTasks[currentIndex];
     final showHistory =
         microTask.acceptanceStatus != MicroTaskStatus.NOT_STARTED;
@@ -276,6 +269,7 @@ class _TextToTextWidgetState extends State<TextToTextWidget> {
       onHistory: showHistory
           ? () => _controller.showSubmissionHistoryBottomSheet(microTask.id)
           : null,
+      compact: compact,
     );
   }
 
@@ -401,9 +395,8 @@ class _TextToTextWidgetState extends State<TextToTextWidget> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        'home.tasks.attempts_left'.trParams({
-          'count': (microTask.allowedRetry - microTask.currentRetry).toString()
-        }),
+        'home.tasks.attempts_left'
+            .trParams({'count': microTask.remainingRetries.toString()}),
         style: const TextStyle(fontSize: 12, color: AppColors.primary),
       ),
     );

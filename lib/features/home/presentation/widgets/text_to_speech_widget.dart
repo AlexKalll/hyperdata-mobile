@@ -456,30 +456,36 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
   }
 
   Future<void> _navigateToMicroTask(int nextIndex) async {
-    final microTasks = _controller.selectedTaskDetail.value!.microTasks;
-    if (nextIndex >= 0 && nextIndex < microTasks.length) {
-      final screenHeight = MediaQuery.of(context).size.height;
-      final isSmallScreen = ScreenConstants.isSmallScreen(screenHeight);
+    final taskDetail = _controller.selectedTaskDetail.value;
+    if (taskDetail == null ||
+        nextIndex < 0 ||
+        nextIndex >= taskDetail.microTasks.length) {
+      return;
+    }
 
-      if (isSmallScreen) {
-        _controller.selectedMicroTaskIndex.value = nextIndex;
-        setState(() {
-          _currentFilePath = _controller.getRecordedAudioPath();
-          _hasRecording =
-              _currentFilePath != null && File(_currentFilePath!).existsSync();
-          _isRecording = false;
-          _isPlaying = false;
-          _isPaused = false;
-          _recordingDuration = Duration.zero;
-          _amplitudes.clear();
-        });
-      } else {
-        await _pageController.animateToPage(
-          nextIndex,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-        );
-      }
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = ScreenConstants.isSmallScreen(screenHeight);
+
+    if (isSmallScreen) {
+      // Small screen: Direct state update (no PageController)
+      _controller.selectedMicroTaskIndex.value = nextIndex;
+      setState(() {
+        _currentFilePath = _controller.getRecordedAudioPath();
+        _hasRecording =
+            _currentFilePath != null && File(_currentFilePath!).existsSync();
+        _isRecording = false;
+        _isPlaying = false;
+        _isPaused = false;
+        _recordingDuration = Duration.zero;
+        _amplitudes.clear();
+      });
+    } else {
+      // Normal screen: Use PageController animation
+      await _pageController.animateToPage(
+        nextIndex,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
@@ -629,38 +635,28 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
     final microTask = task.microTasks[currentIndex];
     final isEligible = _isMicroTaskEligible(microTask);
 
-    return Stack(
-      children: [
-        // Main scrollable content
-        SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              _buildTopSection(context, task, currentIndex),
-              if (isEligible)
-                _buildRecordingSection(context, task, currentIndex,
-                    useGlobalKeys: true),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-        // Floating navigation buttons on the right
-        if (task.microTasks.length > 1)
-          Positioned(
-            right: 16,
-            top: 0,
-            bottom: 0,
-            child: Center(
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildTopSection(context, task, currentIndex),
+          if (isEligible)
+            _buildRecordingSection(context, task, currentIndex,
+                useGlobalKeys: true),
+          if (task.microTasks.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
               child: _buildNavigationButtons(task, currentIndex,
-                  useGlobalKey: true),
+                  useGlobalKey: true, compact: true),
             ),
-          ),
-      ],
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 
   Widget _buildNavigationButtons(TaskDetailEntity task, int currentIndex,
-      {bool useGlobalKey = true}) {
+      {bool useGlobalKey = true, bool compact = false}) {
     final microTask = task.microTasks[currentIndex];
     final showHistory =
         microTask.acceptanceStatus != MicroTaskStatus.NOT_STARTED;
@@ -677,6 +673,7 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
       onHistory: showHistory
           ? () => _controller.showSubmissionHistoryBottomSheet(microTask.id)
           : null,
+      compact: compact,
     );
   }
 
@@ -1058,11 +1055,8 @@ class _TextToSpeechWidgetState extends State<TextToSpeechWidget> {
           ),
         if (task.microTasks[index].acceptanceStatus == MicroTaskStatus.REJECTED)
           Text(
-            'home.tasks.attempts_left'.trParams({
-              'count': (task.microTasks[index].allowedRetry -
-                      task.microTasks[index].currentRetry)
-                  .toString()
-            }),
+            'home.tasks.attempts_left'.trParams(
+                {'count': task.microTasks[index].remainingRetries.toString()}),
             style: const TextStyle(fontSize: 10, color: AppColors.primary),
           ),
       ],

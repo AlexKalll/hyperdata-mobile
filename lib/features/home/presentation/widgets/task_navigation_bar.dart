@@ -13,6 +13,7 @@ class TaskNavigationBar extends StatelessWidget {
   final VoidCallback? onNext;
   final VoidCallback? onHistory;
   final GlobalKey? navigationKey;
+  final bool compact;
 
   const TaskNavigationBar({
     super.key,
@@ -24,20 +25,49 @@ class TaskNavigationBar extends StatelessWidget {
     this.onNext,
     this.onHistory,
     this.navigationKey,
+    this.compact = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final previousButton = _buildFloatingButton(
+      icon: Icons.keyboard_arrow_up_rounded,
+      onPressed: onPrevious,
+      isEnabled: canNavigatePrevious,
+    );
+    final nextButton = _buildFloatingButton(
+      icon: Icons.keyboard_arrow_down_rounded,
+      onPressed: onNext,
+      isEnabled: canNavigateNext,
+    );
+    final historyButton = onHistory == null
+        ? null
+        : _buildFloatingButton(
+            icon: Icons.history_rounded,
+            onPressed: onHistory,
+          );
+
+    if (compact) {
+      return Row(
+        key: navigationKey,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          previousButton,
+          const SizedBox(width: 8),
+          nextButton,
+          if (historyButton != null) ...[
+            const SizedBox(width: 8),
+            historyButton,
+          ],
+        ],
+      );
+    }
+
     return Column(
       key: navigationKey,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Previous button
-        _buildFloatingButton(
-          icon: Icons.keyboard_arrow_up_rounded,
-          onPressed: onPrevious,
-          isEnabled: canNavigatePrevious,
-        ),
+        previousButton,
 
         const SizedBox(height: 12),
 
@@ -45,20 +75,12 @@ class TaskNavigationBar extends StatelessWidget {
         // _buildPageIndicator(),
         // const SizedBox(height: 12),
 
-        // Next button
-        _buildFloatingButton(
-          icon: Icons.keyboard_arrow_down_rounded,
-          onPressed: onNext,
-          isEnabled: canNavigateNext,
-        ),
+        nextButton,
 
         // History button (if provided)
-        if (onHistory != null) ...[
+        if (historyButton != null) ...[
           const SizedBox(height: 12),
-          _buildFloatingButton(
-            icon: Icons.history_rounded,
-            onPressed: onHistory,
-          ),
+          historyButton,
           const SizedBox(height: 12),
         ],
       ],
