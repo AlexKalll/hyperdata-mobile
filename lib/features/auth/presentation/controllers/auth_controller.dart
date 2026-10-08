@@ -121,8 +121,11 @@ class AuthController extends GetxController {
   Future<void> login(String phone, String password) async {
     isLoggingIn.value = true;
     loginLoadingReason.value = "Logging in";
-    await _authUseCase.login(phone, password);
-    isLoggingIn.value = false;
+    try {
+      await _authUseCase.login(phone, password);
+    } finally {
+      isLoggingIn.value = false;
+    }
   }
   Future<void> requestOtp(String phone , {isActivatingAccount = false}) async {
     if (!canResend.value) {

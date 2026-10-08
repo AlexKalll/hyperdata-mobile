@@ -1,30 +1,34 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:mahder_mobile/main.dart';
+import 'package:mahder_mobile/core/widgets/button.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('submission button invokes action and blocks taps while loading',
+      (tester) async {
+    var submissions = 0;
+    Future<void> showButton({bool loading = false}) => tester.pumpWidget(
+          MaterialApp(
+              home: Scaffold(
+                  body: ButtonWidget(
+            text: 'Submit',
+            loadingText: 'Submitting',
+            isLoading: loading,
+            onPressed: () => submissions++,
+          ))),
+        );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await showButton();
+    expect(find.text('Submit'), findsOneWidget);
+    await tester.tap(find.byType(ElevatedButton));
+    expect(submissions, 1);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await showButton(loading: true);
+    expect(find.text('Submitting...'), findsOneWidget);
+    expect(tester.widget<ElevatedButton>(find.byType(ElevatedButton)).onPressed,
+        isNull);
+    await tester.tap(find.byType(ElevatedButton));
+    expect(submissions, 1);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 }

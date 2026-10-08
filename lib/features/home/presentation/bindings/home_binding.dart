@@ -34,6 +34,7 @@ class HomeBinding extends Bindings {
     Get.lazyPut(() => ProfileUseCase(Get.find<ProfileRepositoryImpl>()));
 
     // Register storage services
+    Get.lazyPut(() => LocalStorage());
     Get.lazyPut(() => FileStorageService());
     Get.lazyPut(() => TaskStorageService());
 

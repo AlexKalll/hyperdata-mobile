@@ -73,7 +73,7 @@ class AuthRemoteDataSource {
       );
       return {
         "accessToken": response.data["data"]["access_token"],
-        "refreshToken": response.data["data"]["new_refresh_token"]
+        "refreshToken": response.data["data"]["refresh_token"]
       };
     }
     catch (e) {

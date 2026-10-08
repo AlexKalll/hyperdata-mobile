@@ -7,14 +7,17 @@ import 'api_interceptor.dart';
 class ApiClient {
   late final Dio _dio;
 
-  ApiClient() {
-    _dio = Dio(
+  ApiClient({Dio? dio}) {
+    _dio = dio ?? Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 120),
         receiveTimeout: const Duration(seconds: 120),
       ),
-    )..interceptors.add(ApiInterceptor());
+    );
+    if (dio == null) {
+      _dio.interceptors.add(ApiInterceptor());
+    }
   }
 
   Future<Response> get(String endpoint, {bool includeToken = false , Map<String, dynamic>? params}) async {

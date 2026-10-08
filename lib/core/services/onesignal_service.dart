@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -19,6 +20,11 @@ class OneSignalService {
   /// Should be called once during app startup in main.dart
   /// Sets up notification handlers and permission observers
   static Future<void> initialize() async {
+    if (kIsWeb) {
+      _logger.i('Skipping OneSignal initialization on web');
+      return;
+    }
+
     try {
       _logger.i('Initializing OneSignal...');
 
@@ -45,6 +51,8 @@ class OneSignalService {
   /// Associates the device with a specific user ID for targeted notifications
   /// Call this after successful user login
   static Future<void> loginUser(String userId) async {
+    if (kIsWeb) return;
+
     try {
       _logger.i('Logging in OneSignal user: $userId');
       await OneSignal.login(userId);
@@ -59,6 +67,8 @@ class OneSignalService {
   /// Clears the external user ID and user-specific data
   /// Call this when user logs out of the app
   static Future<void> logoutUser() async {
+    if (kIsWeb) return;
+
     try {
       _logger.i('Logging out OneSignal user');
       await OneSignal.logout();
@@ -73,6 +83,8 @@ class OneSignalService {
   /// Tags allow you to send targeted notifications to specific user groups
   /// Example: {'role': 'contributor', 'phone': '+251912345678'}
   static Future<void> setUserTags(Map<String, String> tags) async {
+    if (kIsWeb) return;
+
     try {
       _logger.i('Setting OneSignal user tags: $tags');
       await OneSignal.User.addTags(tags);
