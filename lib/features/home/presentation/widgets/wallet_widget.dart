@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mahder_mobile/core/widgets/button.dart';
 import 'package:mahder_mobile/core/widgets/image.dart';
 import 'package:mahder_mobile/core/widgets/loading.dart';
 import 'package:mahder_mobile/features/home/presentation/controllers/home_controller.dart';
+import 'package:mahder_mobile/features/home/presentation/widgets/withdraw_dialog.dart';
 
 class WalletWidget extends StatelessWidget {
   WalletWidget({super.key});
@@ -88,7 +88,7 @@ class WalletWidget extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  print('Withdrawing:');
+                  Get.dialog(const WithdrawDialog());
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -121,7 +121,7 @@ class WalletWidget extends StatelessWidget {
               const SizedBox(width: 15),
               InkWell(
                 onTap: () {
-                  print('History:');
+                  _homeController.showWalletHistory();
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
