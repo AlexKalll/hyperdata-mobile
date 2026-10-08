@@ -131,3 +131,11 @@ Section 4(b) of the Apache License, Version 2.0.
   could hide the recording and submit controls after a valid recording.
 - Displayed retry availability using the configured retry count rather than
   treating the initial submission as a retry.
+
+## 2026-10-05
+
+### Compact task navigation
+
+- Moved small-screen task navigation below the scrollable submission content and
+  rendered it as a compact row so the submission-history control no longer
+  overlaps recording or text-submit controls on short emulators.

@@ -239,38 +239,28 @@ class _SpeechToTextWidgetState extends State<SpeechToTextWidget> {
     final microTask = task.microTasks[currentIndex];
     final isEligible = _isMicroTaskEligible(microTask);
 
-    return Stack(
-      children: [
-        // Main scrollable content
-        SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              _buildAudioPlayer(microTask, useGlobalKey: true),
-              _buildSubmissionInfo(),
-              if (isEligible)
-                _buildInputForm(context, task, microTask, useGlobalKeys: true),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-        // Floating navigation buttons on the right
-        if (task.microTasks.length > 1)
-          Positioned(
-            right: 16,
-            top: 0,
-            bottom: 0,
-            child: Center(
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildAudioPlayer(microTask, useGlobalKey: true),
+          _buildSubmissionInfo(),
+          if (isEligible)
+            _buildInputForm(context, task, microTask, useGlobalKeys: true),
+          if (task.microTasks.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
               child: _buildNavigationButtons(task, currentIndex,
-                  useGlobalKey: true),
+                  useGlobalKey: true, compact: true),
             ),
-          ),
-      ],
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 
   Widget _buildNavigationButtons(TaskDetailEntity task, int currentIndex,
-      {bool useGlobalKey = true}) {
+      {bool useGlobalKey = true, bool compact = false}) {
     final microTask = task.microTasks[currentIndex];
     final showHistory =
         microTask.acceptanceStatus != MicroTaskStatus.NOT_STARTED;
@@ -287,6 +277,7 @@ class _SpeechToTextWidgetState extends State<SpeechToTextWidget> {
       onHistory: showHistory
           ? () => _controller.showSubmissionHistoryBottomSheet(microTask.id)
           : null,
+      compact: compact,
     );
   }
 
