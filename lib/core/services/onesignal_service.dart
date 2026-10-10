@@ -25,20 +25,36 @@ class OneSignalService {
       return;
     }
 
+    if (_appId.trim().isEmpty) {
+      _logger.w('Skipping OneSignal initialization: ONESIGNAL_APP_ID is empty');
+      return;
+    }
+
     try {
       _logger.i('Initializing OneSignal...');
 
       // Initialize OneSignal with app ID
       OneSignal.initialize(_appId);
 
-      // Request notification permission
-      await OneSignal.Notifications.requestPermission(true);
-
-      // Set up notification handlers
+      // Register observers before requesting permission so subscription state
+      // changes are visible during initial device registration.
       _setupNotificationHandlers();
-
-      // Set up permission observer
       _setupPermissionObserver();
+      _setupPushSubscriptionObserver();
+
+      // Request notification permission
+      final permissionGranted =
+          await OneSignal.Notifications.requestPermission(true);
+      if (permissionGranted) {
+        await OneSignal.User.pushSubscription.optIn();
+      }
+
+      final subscription = OneSignal.User.pushSubscription;
+      _logger.i(
+        'OneSignal push status: permissionGranted=$permissionGranted, '
+        'optedIn=${subscription.optedIn}, '
+        'subscriptionIdAvailable=${subscription.id?.isNotEmpty ?? false}',
+      );
 
       _logger.i('OneSignal initialized successfully');
     } catch (e) {
@@ -54,7 +70,7 @@ class OneSignalService {
     if (kIsWeb) return;
 
     try {
-      _logger.i('Logging in OneSignal user: $userId');
+      _logger.i('Logging in OneSignal user');
       await OneSignal.login(userId);
       _logger.i('OneSignal user logged in successfully');
     } catch (e) {
@@ -86,7 +102,7 @@ class OneSignalService {
     if (kIsWeb) return;
 
     try {
-      _logger.i('Setting OneSignal user tags: $tags');
+      _logger.i('Setting OneSignal user tags: ${tags.keys.join(', ')}');
       await OneSignal.User.addTags(tags);
       _logger.i('OneSignal user tags set successfully');
     } catch (e) {
@@ -108,7 +124,7 @@ class OneSignalService {
   /// Check if user has granted notification permission
   static Future<bool> hasNotificationPermission() async {
     try {
-      final permission = await OneSignal.Notifications.permission;
+      final permission = OneSignal.Notifications.permission;
       return permission;
     } catch (e) {
       _logger.e('Error checking notification permission: $e');
@@ -201,6 +217,17 @@ class OneSignalService {
   static void _setupPermissionObserver() {
     OneSignal.Notifications.addPermissionObserver((state) {
       _logger.i('Notification permission changed: $state');
+    });
+  }
+
+  /// Track whether this installation has an active OneSignal push subscription.
+  static void _setupPushSubscriptionObserver() {
+    OneSignal.User.pushSubscription.addObserver((state) {
+      _logger.i(
+        'OneSignal push subscription changed: '
+        'optedIn=${state.current.optedIn}, '
+        'subscriptionIdAvailable=${state.current.id?.isNotEmpty ?? false}',
+      );
     });
   }
 

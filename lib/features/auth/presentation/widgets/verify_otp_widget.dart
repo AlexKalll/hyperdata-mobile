@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:mahder_mobile/core/theme/app_colors.dart';
-import 'package:mahder_mobile/core/utils/message.dart';
 
 import '../../../../../core/utils/screen_size.dart';
 import '../../../../../core/widgets/button.dart';
@@ -33,8 +32,9 @@ class _VerifyOtpWidgetState extends State<VerifyOtpWidget> {
           const SizedBox(height: 4,),
           Text("+251-${_authController.forgotPhoneNumber.value}",style: const TextStyle(fontSize: 17,fontWeight: FontWeight.w500),textAlign: TextAlign.left,),
           SizedBox(height: getScreenHeight(context)*0.04,),
-          OtpTextField(
+          LayoutBuilder(builder: (context, constraints) => OtpTextField(
             numberOfFields: 6,
+            margin: const EdgeInsets.only(right: 6),
             filled: true,
             fillColor: AppColors.inputBgColor,
             enabledBorderColor: AppColors.inputBgColor,
@@ -45,11 +45,11 @@ class _VerifyOtpWidgetState extends State<VerifyOtpWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             showFieldAsBox: true,
             borderRadius: BorderRadius.circular(10),
-            fieldWidth: 50,
+            fieldWidth: ((constraints.maxWidth - 36) / 6).clamp(24.0, 50.0).toDouble(),
             onSubmit: (String code){
               _authController.verifyOtp(code);
             },
-          ),
+          )),
           Container(
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(vertical: getScreenHeight(context)*0.015),

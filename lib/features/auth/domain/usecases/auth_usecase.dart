@@ -1,15 +1,11 @@
-import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-import 'package:mahder_mobile/core/errors/failure.dart';
 import 'package:mahder_mobile/core/services/onboarding_service.dart';
 import 'package:mahder_mobile/core/services/onesignal_service.dart';
 import 'package:mahder_mobile/core/utils/message.dart';
 
 import '../../../../../core/cache/local_storage.dart';
 import '../../../../../routes/app_routes.dart';
-import '../../data/models/login_response.dart';
 import '../../data/models/new_user.dart';
 import '../repositories/auth_repository.dart';
 
@@ -47,13 +43,13 @@ class AuthUseCase {
       '+251$phone',
       otp,
     );
-    return result.fold(
-      (failure) {
+    return result.fold<Future<bool>>(
+      (failure) async {
         showErrorMessage("Activating account failed: ${failure.message}");
         return false;
       },
-      (verificationResponse) {
-        _localStorage.saveAccessToken(
+      (verificationResponse) async {
+        await _localStorage.saveAccessToken(
           accessToken: verificationResponse.accessToken,
         );
         showSuccessMessage("Account activated successfully!");
@@ -156,8 +152,6 @@ class AuthUseCase {
     String? accessToken = await _localStorage.getAccessToken();
     String? refreshToken = await _localStorage.getRefreshToken();
 
-    print(accessToken);
-
     if (refreshToken != null &&
         refreshToken.isNotEmpty &&
         accessToken != null &&
@@ -175,11 +169,13 @@ class AuthUseCase {
               accessToken: tokens["accessToken"],
               refreshToken: tokens["refreshToken"],
             );
+            await _syncOneSignalIdentity();
             Get.offAllNamed(AppRoutes.home);
           },
         );
       } else {
         print("Access token is still valid");
+        await _syncOneSignalIdentity();
         Get.offAllNamed(AppRoutes.home);
       }
     } else {
@@ -214,11 +210,7 @@ class AuthUseCase {
               refreshToken: tokens["refreshToken"],
             );
 
-            // Re-login user to OneSignal after token refresh
-            final user = await _localStorage.getUserDetail();
-            if (user != null && user.id != null) {
-              await OneSignalService.loginUser(user.id!);
-            }
+            await _syncOneSignalIdentity();
           },
         );
       } else {
@@ -228,6 +220,14 @@ class AuthUseCase {
     } else {
       print("No Access Token found");
       Get.offAllNamed(AppRoutes.login);
+    }
+  }
+
+  Future<void> _syncOneSignalIdentity() async {
+    final user = await _localStorage.getUserDetail();
+    final userId = user?.id;
+    if (userId != null && userId.isNotEmpty) {
+      await OneSignalService.loginUser(userId);
     }
   }
 

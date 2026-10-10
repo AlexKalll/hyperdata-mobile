@@ -7,10 +7,6 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/utils/screen_size.dart';
 import '../../../../../core/widgets/button.dart';
 import '../controllers/auth_controller.dart';
-import '../widgets/logo_widget.dart';
-import '../widgets/request_otp_widget.dart';
-import '../widgets/reset_password_widget.dart';
-import '../widgets/verify_otp_widget.dart';
 
 class ActivateAccountPage extends StatefulWidget {
 
@@ -67,8 +63,9 @@ class _ActivateAccountPageState extends State<ActivateAccountPage> {
                             const SizedBox(height: 4,),
                             Text("+251-${_authController.registeredPhone.value}",style: const TextStyle(fontSize: 17,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
                             SizedBox(height: getScreenHeight(context)*0.04,),
-                            OtpTextField(
+                            LayoutBuilder(builder: (context, constraints) => OtpTextField(
                               numberOfFields: 6,
+                              margin: const EdgeInsets.only(right: 6),
                               filled: true,
                               fillColor: AppColors.inputBgColor,
                               enabledBorderColor: AppColors.inputBgColor,
@@ -79,14 +76,14 @@ class _ActivateAccountPageState extends State<ActivateAccountPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               showFieldAsBox: true,
                               borderRadius: BorderRadius.circular(10),
-                              fieldWidth: 50,
+                              fieldWidth: ((constraints.maxWidth - 36) / 6).clamp(24.0, 50.0).toDouble(),
                               onSubmit: (String code){
                                 setState(() {
                                   verificationCode = code;
                                 });
                                 _authController.activateAccount(code);
                               },
-                            ),
+                            )),
                             Container(
                               alignment: Alignment.centerLeft,
                               padding: EdgeInsets.symmetric(vertical: getScreenHeight(context)*0.015),
