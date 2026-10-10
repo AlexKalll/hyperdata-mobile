@@ -155,3 +155,5 @@ Section 4(b) of the Apache License, Version 2.0.
 
 - Save the onboarding token before opening profile registration and attach it to
   language/dialect lookups so verified contributors can load the choices.
+- Size both six-digit OTP entry rows to the available screen width to prevent
+  horizontal overflow on narrow devices.
