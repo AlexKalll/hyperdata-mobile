@@ -148,3 +148,10 @@ Section 4(b) of the Apache License, Version 2.0.
   so notifications can target users who do not log in again after an app update.
 - Explicitly opt in after permission is granted and log push subscription status
   without exposing the device token or user ID.
+
+## 2026-10-10
+
+### Contributor onboarding
+
+- Save the onboarding token before opening profile registration and attach it to
+  language/dialect lookups so verified contributors can load the choices.

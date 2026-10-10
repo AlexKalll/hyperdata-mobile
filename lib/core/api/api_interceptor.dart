@@ -23,7 +23,7 @@ class ApiInterceptor extends Interceptor {
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     print("🔹 Request Method: ${options.method}");
     print("🔹 Request URL: ${options.uri}");
-    if(options.uri.toString().contains("iam/auth") || options.uri.toString().contains("setting")) {
+    if(options.uri.toString().contains("iam/auth")) {
       return handler.next(options);
     }
     String? accessToken = await _localStorage.getAccessToken();

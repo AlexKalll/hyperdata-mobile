@@ -1,15 +1,11 @@
-import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-import 'package:mahder_mobile/core/errors/failure.dart';
 import 'package:mahder_mobile/core/services/onboarding_service.dart';
 import 'package:mahder_mobile/core/services/onesignal_service.dart';
 import 'package:mahder_mobile/core/utils/message.dart';
 
 import '../../../../../core/cache/local_storage.dart';
 import '../../../../../routes/app_routes.dart';
-import '../../data/models/login_response.dart';
 import '../../data/models/new_user.dart';
 import '../repositories/auth_repository.dart';
 
@@ -47,13 +43,13 @@ class AuthUseCase {
       '+251$phone',
       otp,
     );
-    return result.fold(
-      (failure) {
+    return result.fold<Future<bool>>(
+      (failure) async {
         showErrorMessage("Activating account failed: ${failure.message}");
         return false;
       },
-      (verificationResponse) {
-        _localStorage.saveAccessToken(
+      (verificationResponse) async {
+        await _localStorage.saveAccessToken(
           accessToken: verificationResponse.accessToken,
         );
         showSuccessMessage("Account activated successfully!");
