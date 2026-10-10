@@ -156,8 +156,6 @@ class AuthUseCase {
     String? accessToken = await _localStorage.getAccessToken();
     String? refreshToken = await _localStorage.getRefreshToken();
 
-    print(accessToken);
-
     if (refreshToken != null &&
         refreshToken.isNotEmpty &&
         accessToken != null &&
@@ -175,11 +173,13 @@ class AuthUseCase {
               accessToken: tokens["accessToken"],
               refreshToken: tokens["refreshToken"],
             );
+            await _syncOneSignalIdentity();
             Get.offAllNamed(AppRoutes.home);
           },
         );
       } else {
         print("Access token is still valid");
+        await _syncOneSignalIdentity();
         Get.offAllNamed(AppRoutes.home);
       }
     } else {
@@ -214,11 +214,7 @@ class AuthUseCase {
               refreshToken: tokens["refreshToken"],
             );
 
-            // Re-login user to OneSignal after token refresh
-            final user = await _localStorage.getUserDetail();
-            if (user != null && user.id != null) {
-              await OneSignalService.loginUser(user.id!);
-            }
+            await _syncOneSignalIdentity();
           },
         );
       } else {
@@ -228,6 +224,14 @@ class AuthUseCase {
     } else {
       print("No Access Token found");
       Get.offAllNamed(AppRoutes.login);
+    }
+  }
+
+  Future<void> _syncOneSignalIdentity() async {
+    final user = await _localStorage.getUserDetail();
+    final userId = user?.id;
+    if (userId != null && userId.isNotEmpty) {
+      await OneSignalService.loginUser(userId);
     }
   }
 

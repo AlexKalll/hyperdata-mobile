@@ -139,3 +139,12 @@ Section 4(b) of the Apache License, Version 2.0.
 - Moved small-screen task navigation below the scrollable submission content and
   rendered it as a compact row so the submission-history control no longer
   overlaps recording or text-submit controls on short emulators.
+
+## 2026-10-09
+
+### Push notification registration
+
+- Re-associate OneSignal with the saved app user when restoring a valid session,
+  so notifications can target users who do not log in again after an app update.
+- Explicitly opt in after permission is granted and log push subscription status
+  without exposing the device token or user ID.
