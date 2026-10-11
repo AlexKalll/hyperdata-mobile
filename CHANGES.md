@@ -164,3 +164,10 @@ Section 4(b) of the Apache License, Version 2.0.
 
 - Show a contributor's email on the mobile profile and retain optional email and
   middle-name values correctly when saving profile changes.
+
+### Documentation maintenance
+
+- Updated repository setup instructions to use the `hyperdata-mobile` repository and the supplied Google Drive APK link.
+- Replaced stale API examples with the routes and request fields currently used by the app, and updated OneSignal guidance to SDK v5.
+- Corrected Dart formatting commands and links affected by removal of `CHANGELOG.md` and `CONTRIBUTORS.md`.
+- Removed the obsolete changelog and contributor-list documents as requested.

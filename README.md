@@ -30,7 +30,7 @@ Mahder Mobile is a Flutter-based mobile application designed for dataset contrib
 
 ### Try the App
 
-Want to try the app without building from source? [Download the sample APK from Google Drive](https://drive.google.com/file/d/1J5MpNZ8nHMTEUPa8jrt4vn04F4Nfppao/view?usp=drive_link) and install it on your Android device.
+Want to try the app without building from source? [Download the sample APK from Google Drive](https://drive.google.com/file/d/1OhM73hseBc9ct6qu2h_jMRe2eJfPWHyx/view?usp=drive_link) and install it on your Android device.
 
 ### Key Highlights
 
@@ -80,10 +80,10 @@ Want to try the app without building from source? [Download the sample APK from 
 
 #### Option 1: Try the Sample APK (No Setup Required)
 
-[Download the pre-built APK from Google Drive](https://drive.google.com/file/d/1J5MpNZ8nHMTEUPa8jrt4vn04F4Nfppao/view?usp=drive_link) and install it on your Android device:
+[Download the pre-built APK from Google Drive](https://drive.google.com/file/d/1OhM73hseBc9ct6qu2h_jMRe2eJfPWHyx/view?usp=drive_link) and install it on your Android device:
 
 ```bash
-# Install on connected Android device (after downloading)
+# Save the downloaded file as Mahder.apk
 adb install Mahder.apk
 ```
 
@@ -94,8 +94,8 @@ Or manually transfer the downloaded APK to your Android device and install it.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/mahder_mobile.git
-   cd mahder_mobile
+   git clone https://github.com/iCog-Labs-Dev/hyperdata-mobile.git
+   cd hyperdata-mobile
    ```
 
 2. **Install dependencies**
@@ -156,12 +156,11 @@ flutter build ios --release
 
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - App architecture and design patterns
 - **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - API integration guide
-- **[CHANGELOG.md](CHANGELOG.md)** - Version history and changes
+- **[CHANGES.md](CHANGES.md)** - Fork attribution and recorded modifications
 
 ### Additional Resources
 
 - **[LICENSE](LICENSE)** - MIT License
-- **[CONTRIBUTORS.md](CONTRIBUTORS.md)** - Project contributors
 
 ## 🏗️ Architecture
 
@@ -225,7 +224,7 @@ To add a new language:
 - **Input Validation**: All user inputs validated before processing
 - **HTTPS Only**: All API calls over HTTPS
 
-For security concerns, please email security@mahder.ai or open a private security advisory on GitHub.
+For security concerns, open a [private security advisory](https://github.com/iCog-Labs-Dev/hyperdata-mobile/security/advisories/new).
 
 ## 🧪 Testing
 
@@ -267,8 +266,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Team
 
-- **Development Team**: mahder Development Team
-- **Contributors**: See [CONTRIBUTORS.md](CONTRIBUTORS.md)
+- **Development Team**: Hyperdata Mobile maintainers
 
 ## 🙏 Acknowledgments
 
@@ -280,8 +278,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: Check the [docs](#documentation) section
-- **Issues**: [GitHub Issues](https://github.com/yourusername/mahder_mobile/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/mahder_mobile/discussions)
+- **Issues**: [GitHub Issues](https://github.com/iCog-Labs-Dev/hyperdata-mobile/issues)
 
 ## 🗺️ Roadmap
 

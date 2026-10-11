@@ -36,12 +36,13 @@ Before you begin, ensure you have the following installed:
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/mahder_mobile.git
-   cd mahder_mobile
+   # Replace YOUR_GITHUB_USERNAME with your GitHub account name
+   git clone https://github.com/YOUR_GITHUB_USERNAME/hyperdata-mobile.git
+   cd hyperdata-mobile
    ```
 3. **Add upstream remote**:
    ```bash
-   git remote add upstream https://github.com/ORIGINAL_OWNER/mahder_mobile.git
+   git remote add upstream https://github.com/iCog-Labs-Dev/hyperdata-mobile.git
    ```
 
 ### Environment Setup
@@ -56,7 +57,7 @@ Before you begin, ensure you have the following installed:
    cp .env.example .env
    ```
 
-   Edit `.env` with your configuration. See [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md) for details.
+   Edit `.env` with your configuration. See [docs/SETUP.md](docs/SETUP.md) for details.
 
 3. **Verify setup**:
    ```bash
@@ -149,7 +150,7 @@ Unsure where to begin? Look for issues labeled:
 ### Project Structure
 
 ```
-mahder_mobile/
+hyperdata-mobile/
 ├── lib/
 │   ├── core/              # Core functionality
 │   │   ├── api/           # API client
@@ -208,14 +209,14 @@ Follow the [Effective Dart](https://dart.dev/guides/language/effective-dart) gui
 ### Code Formatting
 
 ```bash
-# Format all files
-flutter format .
+# Format all Dart files
+dart format .
 
 # Format specific file
-flutter format lib/main.dart
+dart format lib/main.dart
 
 # Check formatting
-flutter format --set-exit-if-changed .
+dart format --set-exit-if-changed .
 ```
 
 ### Linting
@@ -472,7 +473,7 @@ BREAKING CHANGE: Authentication now requires email verification
 
 4. **Format code**:
    ```bash
-   flutter format .
+   dart format .
    ```
 
 5. **Update documentation** if needed
@@ -652,10 +653,7 @@ Future<User> login({
 
 ## Recognition
 
-Contributors will be recognized in:
-- [CONTRIBUTORS.md](CONTRIBUTORS.md)
-- Release notes
-- Project README
+Contributors will be recognized in release notes and project documentation.
 
 Thank you for contributing to Mahder Mobile! 🎉
 
