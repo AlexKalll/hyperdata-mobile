@@ -157,3 +157,10 @@ Section 4(b) of the Apache License, Version 2.0.
   language/dialect lookups so verified contributors can load the choices.
 - Size both six-digit OTP entry rows to the available screen width to prevent
   horizontal overflow on narrow devices.
+
+## 2026-10-11
+
+### Contributor profile email
+
+- Show a contributor's email on the mobile profile and retain optional email and
+  middle-name values correctly when saving profile changes.
