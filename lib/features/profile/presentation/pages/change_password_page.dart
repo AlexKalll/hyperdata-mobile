@@ -2,24 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mahder_mobile/core/theme/app_colors.dart';
 import '../widgets/change_password_widget.dart';
+import '../controllers/profile_controller.dart';
 
 class ChangePasswordPage extends StatelessWidget {
   const ChangePasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.appBgColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            _buildHeader(),
-            // Content
-            Expanded(
-              child: const ChangePasswordWidget(),
-            ),
-          ],
+    final requiredChange =
+        Get.arguments is Map && Get.arguments['required'] == true;
+    return PopScope(
+      canPop: !requiredChange,
+      child: Scaffold(
+        backgroundColor: AppColors.appBgColor,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // Header
+              _buildHeader(),
+              // Content
+              const Expanded(
+                child: ChangePasswordWidget(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -32,7 +38,13 @@ class ChangePasswordPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () => Get.back(),
+            onTap: () {
+              if (Get.arguments is Map && Get.arguments['required'] == true) {
+                Get.find<ProfileController>().logout();
+              } else {
+                Get.back();
+              }
+            },
             child: const Icon(
               Icons.arrow_back,
               color: AppColors.darkGray,

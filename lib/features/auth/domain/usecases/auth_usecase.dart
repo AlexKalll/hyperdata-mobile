@@ -73,8 +73,10 @@ class AuthUseCase {
 
   Future<void> login(String phone, String password) async {
     final result = await _authRepository.login('+251$phone', password);
-    result.fold(
-      (failure) => {showErrorMessage("Login failed: ${failure.message}")},
+    await result.fold<Future<void>>(
+      (failure) async {
+        showErrorMessage("Login failed: ${failure.message}");
+      },
       (authResponse) async {
         if (checkUserRoleAndRedirect(authResponse.user.role?.name)) {
           showSuccessMessage("Login successful!");
@@ -83,6 +85,12 @@ class AuthUseCase {
             refreshToken: authResponse.refreshToken,
           );
           await _localStorage.saveUser(authResponse.user);
+
+          if (authResponse.user.mustChangePassword) {
+            Get.offAllNamed(AppRoutes.changePassword,
+                arguments: {'required': true});
+            return;
+          }
 
           // Login user to OneSignal
           final userId = authResponse.user.id.toString();
@@ -151,6 +159,19 @@ class AuthUseCase {
   Future<void> checkToken() async {
     String? accessToken = await _localStorage.getAccessToken();
     String? refreshToken = await _localStorage.getRefreshToken();
+
+    final user = await _localStorage.getUserDetail();
+    if (user?.mustChangePassword == true) {
+      if (accessToken != null &&
+          accessToken.isNotEmpty &&
+          !_shouldRefreshToken(accessToken)) {
+        Get.offAllNamed(AppRoutes.changePassword,
+            arguments: {'required': true});
+      } else {
+        Get.offAllNamed(AppRoutes.login);
+      }
+      return;
+    }
 
     if (refreshToken != null &&
         refreshToken.isNotEmpty &&

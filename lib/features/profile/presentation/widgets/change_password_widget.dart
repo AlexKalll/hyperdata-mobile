@@ -16,9 +16,11 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
   final ProfileController _profileController = Get.find();
   final formKey = GlobalKey<FormState>();
 
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   final FocusNode _currentPasswordFocusNode = FocusNode();
   final FocusNode _newPasswordFocusNode = FocusNode();
@@ -46,6 +48,12 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: getScreenHeight(context) * 0.02),
+              if (Get.arguments is Map && Get.arguments['required'] == true)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: Text(
+                      'Enter the temporary password from your email, then choose your own password to continue.'),
+                ),
 
               // Current Password Field
               InputBoxWidget(
@@ -53,6 +61,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                 label: 'profile.current_password'.tr,
                 placeHolder: 'profile.current_password_placeholder'.tr,
                 controller: _currentPasswordController,
+                shouldValidate: false,
                 focus: _currentPasswordFocusNode,
                 focusNext: _newPasswordFocusNode,
                 showLabel: true,
@@ -88,19 +97,19 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
 
               // Save Button
               Obx(() => ButtonWidget(
-                text: 'profile.change_password_button'.tr,
-                loadingText: 'profile.changing_password'.tr,
-                isLoading: _profileController.isChangingPassword.value,
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    _profileController.changePassword(
-                      _currentPasswordController.text.trim(),
-                      _newPasswordController.text.trim(),
-                    );
-                  }
-                },
-                fontSize: 16,
-              )),
+                    text: 'profile.change_password_button'.tr,
+                    loadingText: 'profile.changing_password'.tr,
+                    isLoading: _profileController.isChangingPassword.value,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        _profileController.changePassword(
+                          _currentPasswordController.text.trim(),
+                          _newPasswordController.text.trim(),
+                        );
+                      }
+                    },
+                    fontSize: 16,
+                  )),
               SizedBox(height: getScreenHeight(context) * 0.02),
             ],
           ),

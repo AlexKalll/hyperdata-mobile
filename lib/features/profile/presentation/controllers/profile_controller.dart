@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mahder_mobile/core/services/onesignal_service.dart';
 import 'package:mahder_mobile/core/utils/message.dart';
-import 'package:mahder_mobile/features/auth/domain/entities/dialect_entity.dart';
-import 'package:mahder_mobile/features/auth/domain/entities/language_entity.dart';
-import 'package:mahder_mobile/features/auth/domain/usecases/base_data_usecase.dart';
 import 'package:mahder_mobile/core/cache/local_storage.dart';
 import 'package:mahder_mobile/features/home/presentation/controllers/home_controller.dart';
 import 'package:mahder_mobile/features/profile/domain/usecases/profile_usecase.dart';
 import 'package:mahder_mobile/features/auth/data/models/user.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfileController extends GetxController {
   final LocalStorage _localStorage;
@@ -190,6 +186,14 @@ class ProfileController extends GetxController {
           await _profileUseCase.changePassword(currentPassword, newPassword);
       isChangingPassword.value = false;
       if (success) {
+        final user = await _localStorage.getUserDetail();
+        if (user?.mustChangePassword == true) {
+          await _localStorage.clearStorage();
+          Get.offAllNamed('/login');
+          showSuccessMessage(
+              'Password changed. Sign in with your new password.');
+          return;
+        }
         Get.back();
         showSuccessMessage('Password changed successfully');
       } else {
@@ -206,7 +210,7 @@ class ProfileController extends GetxController {
     await OneSignalService.logoutUser();
 
     // Clear local storage
-    _localStorage.clearStorage();
+    await _localStorage.clearStorage();
 
     // Navigate to login
     Get.offAllNamed('/login');

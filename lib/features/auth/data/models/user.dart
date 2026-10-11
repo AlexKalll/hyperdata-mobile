@@ -22,6 +22,7 @@ class User {
   final String? gender;
   final String? birthDate;
   final bool? isActive;
+  final bool mustChangePassword;
   final String? roleId;
   final Role? role;
   final Language? language;
@@ -39,6 +40,7 @@ class User {
     this.gender,
     this.birthDate,
     this.isActive,
+    this.mustChangePassword = false,
     this.roleId,
     this.role,
     this.language,
@@ -48,22 +50,27 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      firstName: json['first_name'],
-      middleName: json['middle_name'],
-      lastName: json['last_name'],
-      email: json['email'],
-      phoneNumber: json['phone_number'],
-      profilePicture: json['profile_picture'],
-      gender: json['gender'],
-      birthDate: json['birth_date'] != null ? json['birth_date'].toString().split("T")[0] : null,
-      isActive: json['is_active'],
-      roleId: json['role_id'],
-      role: json['role'] != null ? Role.fromJson(json['role']) : null,
-      language: json['language'] != null ? Language.fromJson(json['language']) : null,
-      dialect: json['dialect'] != null ? Dialect.fromJson(json['dialect']) : null,
-      score: _parseScore(json['score'])
-    );
+        id: json['id'],
+        firstName: json['first_name'],
+        middleName: json['middle_name'],
+        lastName: json['last_name'],
+        email: json['email'],
+        phoneNumber: json['phone_number'],
+        profilePicture: json['profile_picture'],
+        gender: json['gender'],
+        birthDate: json['birth_date'] != null
+            ? json['birth_date'].toString().split("T")[0]
+            : null,
+        isActive: json['is_active'],
+        mustChangePassword: json['must_change_password'] == true,
+        roleId: json['role_id'],
+        role: json['role'] != null ? Role.fromJson(json['role']) : null,
+        language: json['language'] != null
+            ? Language.fromJson(json['language'])
+            : null,
+        dialect:
+            json['dialect'] != null ? Dialect.fromJson(json['dialect']) : null,
+        score: _parseScore(json['score']));
   }
 }
 
