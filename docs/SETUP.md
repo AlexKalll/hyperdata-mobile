@@ -7,12 +7,12 @@
 If you just want to try the app without setting up the development environment:
 
 1. **Download the APK**
-   - [Download from Google Drive](https://drive.google.com/file/d/1J5MpNZ8nHMTEUPa8jrt4vn04F4Nfppao/view?usp=drive_link)
-   - Save `Mahder.apk` to your computer
+   - [Download from Google Drive](https://drive.google.com/file/d/1OhM73hseBc9ct6qu2h_jMRe2eJfPWHyx/view?usp=drive_link)
+   - Save the APK as `Mahder.apk` on your computer
 
 2. **Install on Android Device**
    ```bash
-   # Using ADB (if device is connected)
+    # Using ADB (if device is connected)
    adb install Mahder.apk
    ```
 
@@ -38,8 +38,8 @@ If you just want to try the app without setting up the development environment:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/mahder_mobile.git
-   cd mahder_mobile
+   git clone https://github.com/iCog-Labs-Dev/hyperdata-mobile.git
+   cd hyperdata-mobile
    ```
 
 2. **Install dependencies**
@@ -72,19 +72,7 @@ If you just want to try the app without setting up the development environment:
 | `API_BASE_URL` | Backend API URL | `http://api.example.com/api` |
 | `ONESIGNAL_APP_ID` | OneSignal App ID for push notifications | `your-app-id-here` |
 
-### Multiple Environments
-
-Create separate `.env` files for different environments:
-
-- `.env.dev` - Development
-- `.env.staging` - Staging
-- `.env.prod` - Production
-
-Switch environments:
-```bash
-cp .env.dev .env
-flutter run
-```
+The app loads `.env` from the project root. The same file is bundled as a Flutter asset and read by the Android Gradle configuration for the OneSignal App ID. Keep real environment values out of version control. This project does not define `.env.dev`, `.env.staging`, or `.env.prod` switching commands; configure the root `.env` for the build you are making.
 
 ## Platform-Specific Setup
 
@@ -100,11 +88,7 @@ No additional configuration needed.
 1. **Minimum Version**: iOS 12.0
 2. **Xcode**: Latest stable version
 
-For OneSignal notifications:
-1. Open `ios/Runner.xcworkspace` in Xcode
-2. Select Runner target → Build Phases
-3. Add "Run Script" phase before "Compile Sources"
-4. Add: `source "${SRCROOT}/Scripts/load_env.sh"`
+Open `ios/Runner.xcworkspace` in Xcode to build for iOS. The checked-in `load_env.sh` file is not wired into the Xcode build phases; Flutter loads the root `.env` as an asset at runtime.
 
 ## Verification
 

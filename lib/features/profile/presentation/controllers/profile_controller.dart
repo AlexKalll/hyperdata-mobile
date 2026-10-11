@@ -142,20 +142,24 @@ class ProfileController extends GetxController {
   Future<void> saveProfile() async {
     try {
       // Prepare profile data for API
+      final middleName = middleNameController.text.trim();
+      final email = emailController.text.trim();
       final profileData = {
-        'first_name': firstNameController.text,
-        'middle_name': middleNameController.text,
-        'last_name': lastNameController.text,
-        'email': emailController.text,
+        'first_name': firstNameController.text.trim(),
+        'middle_name': middleName.isEmpty ? null : middleName,
+        'last_name': lastNameController.text.trim(),
+        'email': email.isEmpty ? null : email,
       };
       isEditingProfile.value = true;
       final success = await _profileUseCase.updateUserProfile(profileData);
       isEditingProfile.value = false;
       if (success) {
-        profileName.value =
-            '${firstNameController.text} ${middleNameController.text} ${lastNameController.text}'
-                .trim();
-        profileEmail.value = emailController.text;
+        profileName.value = [
+          firstNameController.text.trim(),
+          middleName,
+          lastNameController.text.trim(),
+        ].where((part) => part.isNotEmpty).join(' ');
+        profileEmail.value = email;
         _localStorage.updateUserName(
             firstName: firstNameController.text,
             middleName: middleNameController.text,

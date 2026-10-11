@@ -117,6 +117,27 @@ class ProfileMainWidget extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             )),
+            Obx(() {
+              final email = controller.profileEmail.value.trim();
+              if (email.isEmpty) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.email_outlined, size: 16),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        email,
+                        style: const TextStyle(color: Colors.black54),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
             const SizedBox(height: 10),
 
             // Status Badge
