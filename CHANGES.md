@@ -55,6 +55,12 @@ Section 4(b) of the Apache License, Version 2.0.
   - Relocated sample APK to Google Drive and updated documentation
   - Added screenshots and quick start guide to documentation
 
+## 2026-10-11 - Temporary-password sign-in
+
+- Route administrator-created accounts to the existing password-change screen
+  before opening tasks; retain this requirement across app restarts and return
+  to sign-in after saving the user's own password.
+
 ## How to record future changes
 - When making non-trivial modifications, add a short entry under a new dated section below
 - Split commits by cohesive behavior or deployable concern, use Conventional Commit messages
