@@ -1,5 +1,10 @@
 /// Afan Oromo (Ethiopia) translations
 const Map<String, String> omET = {
+  'home.tasks.type.image_to_text': 'Suuraa gara Barruutti',
+  'home.tasks.source_image': 'Suuraa madda',
+  'home.tasks.enlarge_image': 'Suuraa guddisi · quba lamaan guddisi',
+  'home.tasks.image_unavailable':
+      'Suuraan fe’amuu hin dandeenye. Irra deebi’ii yaali yookaan hojii irra deebi’ii bani.',
   // ============ COMMON ============
   'common.app_name': 'Mahder',
   'common.ok': 'Tole',

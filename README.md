@@ -55,6 +55,14 @@ Want to try the app without building from source? [Download the sample APK from 
 - **Notifications**: Receive updates on task assignments and approvals
 - **Profile Management**: Update personal information and preferences
 
+### Image-to-text tasks
+
+Image-to-text assignments display the complete source image and its instructions
+above a text answer field. Tap **Enlarge image** for fullscreen pinch-to-zoom and
+pan. Edits are saved as task-specific drafts, including when navigating away.
+Continue through the assigned prompts, then submit the completed answers. The
+existing review history and rejection/retry flow also applies to these tasks.
+
 ### Technical Features
 
 - **Clean Architecture**: Separation of concerns with domain, data, and presentation layers

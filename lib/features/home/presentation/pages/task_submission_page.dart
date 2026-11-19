@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mahder_mobile/features/home/presentation/widgets/image_to_text_widget.dart';
 import 'package:get/get.dart';
 import 'package:mahder_mobile/features/home/data/models/task_detail.dart';
 import 'package:mahder_mobile/features/home/domain/entities/task_detail_entity.dart';
@@ -324,6 +325,12 @@ class _TaskSubmissionPageState extends State<TaskSubmissionPage> {
 
   Widget _buildTaskTypeWidget() {
     switch (widget.taskType) {
+      case TaskType.Image_to_Text:
+        return ImageToTextWidget(
+          textInputKey: _taskKey1,
+          submitButtonKey: _taskKey2,
+          navigationKey: _navigationKey,
+        );
       case TaskType.Text_to_Speech:
         return TextToSpeechWidget(
           micButtonKey: _taskKey1,

@@ -1,5 +1,10 @@
 /// Amharic (Ethiopia) translations
 const Map<String, String> amET = {
+  'home.tasks.type.image_to_text': 'ምስል ወደ ጽሑፍ',
+  'home.tasks.source_image': 'የምንጭ ምስል',
+  'home.tasks.enlarge_image': 'ምስሉን አጉላ · በሁለት ጣቶች አጉላ',
+  'home.tasks.image_unavailable':
+      'ምስሉ ሊጫን አልቻለም። እንደገና ሞክር ወይም ተግባሩን እንደገና ክፈት።',
   // ============ COMMON ============
   'common.app_name': 'ሌዩ',
   'common.ok': 'እሺ',

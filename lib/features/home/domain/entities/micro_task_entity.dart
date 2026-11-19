@@ -6,6 +6,7 @@ class MicroTaskEntity {
   final String id;
   final String? instruction;
   final String? audioUrl;
+  final String? imageUrl;
   final String? text;
   final String? submissionAudioUrl;
   final String? submissionText;
@@ -20,6 +21,7 @@ class MicroTaskEntity {
     required this.id,
     this.instruction,
     this.audioUrl,
+    this.imageUrl,
     this.text,
     this.submissionAudioUrl,
     this.submissionText,
@@ -42,7 +44,8 @@ class MicroTaskEntity {
     return MicroTaskEntity(
       id: model.id,
       instruction: model.instruction,
-      audioUrl: model.filePath,
+      audioUrl: model.type == 'image' ? null : model.filePath,
+      imageUrl: model.type == 'image' ? model.filePath : null,
       text: model.text,
       submissionAudioUrl: model.dataset?.filePath,
       submissionText: model.dataset?.textDataset,

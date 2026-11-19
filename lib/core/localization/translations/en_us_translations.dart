@@ -1,5 +1,10 @@
 /// English (United States) translations
 const Map<String, String> enUS = {
+  'home.tasks.type.image_to_text': 'Image to Text',
+  'home.tasks.source_image': 'Source image',
+  'home.tasks.enlarge_image': 'Enlarge image · pinch to zoom',
+  'home.tasks.image_unavailable':
+      'Image could not be loaded. Try again or reopen the task.',
   // ============ COMMON ============
   'common.app_name': 'Mahder',
   'common.ok': 'OK',

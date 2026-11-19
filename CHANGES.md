@@ -7,6 +7,13 @@ Section 4(b) of the Apache License, Version 2.0.
 - **License:** MIT License
 - **Fork:** [iCog-Labs-Dev/hyperdata-mobile](https://github.com/iCog-Labs-Dev/hyperdata-mobile)
 
+## 2026-11-12: Image-to-text contributions
+
+- Added `image-text` task parsing, localized task labels, and a dedicated contributor screen.
+- Added uncropped source images, fullscreen pinch-to-zoom/pan, loading and retry states, instructions, and text-length feedback.
+- Reused text submission, rejection/retry history, and persistent drafts; kept draft saving separate from submission and retained its originating task context during navigation.
+- Skip native recording-file cleanup on web so successful text submissions can clear their persistent drafts.
+
 ## Modifications (by category & date)
 
 ### Branding and rebranding

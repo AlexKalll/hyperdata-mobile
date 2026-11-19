@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mahder_mobile/core/cache/cache_manager.dart';
@@ -712,17 +713,19 @@ class HomeController extends GetxController {
   /// Persist text output to storage
   /// Saves text to Hive database
   /// Public method for widgets to call directly
-  Future<void> persistTextOutput(String microTaskId, String text) async {
+  Future<void> persistTextOutput(String microTaskId, String text,
+      {TaskDetailEntity? taskDetail}) async {
     try {
-      if (selectedTaskDetail.value == null) {
+      final task = taskDetail ?? selectedTaskDetail.value;
+      if (task == null) {
         StorageLogger.logNoTaskSelected('persist text');
         return;
       }
 
       StorageLogger.logTextPersistStarted(microTaskId);
-      final taskId = selectedTaskDetail.value!.task.id;
-      final batch = selectedTaskDetail.value!.batch;
-      final isTest = selectedTaskDetail.value!.isTest;
+      final taskId = task.task.id;
+      final batch = task.batch;
+      final isTest = task.isTest;
 
       // Save text to Hive
       await _taskStorageService.saveTextOutput(
@@ -748,7 +751,9 @@ class HomeController extends GetxController {
       StorageLogger.logStorageCleanupStarted(taskId);
 
       // Delete all files for the task
-      await _fileStorageService.deleteTaskFiles(taskId);
+      if (!kIsWeb) {
+        await _fileStorageService.deleteTaskFiles(taskId);
+      }
 
       // Delete submission from Hive
       await _taskStorageService.deleteTaskSubmission(taskId);

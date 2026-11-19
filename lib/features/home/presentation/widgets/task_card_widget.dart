@@ -182,6 +182,8 @@ class TaskCardWidget extends StatelessWidget {
         return 'home.tasks.type.text_to_speech'.tr;
       case TaskType.Text_to_Text:
         return 'home.tasks.type.text_to_text'.tr;
+      case TaskType.Image_to_Text:
+        return 'home.tasks.type.image_to_text'.tr;
       default:
         return taskType.toString().split('.').last.replaceAll('_', ' ');
     }
